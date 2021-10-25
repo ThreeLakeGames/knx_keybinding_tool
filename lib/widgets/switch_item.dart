@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:knx_keybinding_tool/pdf_widgets/pdf_switch_item.dart';
 import 'package:knx_keybinding_tool/provider/switch_item_data.dart';
 import 'package:knx_keybinding_tool/widgets/rocker_tile.dart';
+import 'package:pdf/pdf.dart';
 import 'package:provider/provider.dart';
+import 'package:pdf/widgets.dart' as pw;
 
 class SwitchItem extends StatefulWidget {
   @override
@@ -37,8 +40,10 @@ class _SwitchItemState extends State<SwitchItem> {
         borderRadius: BorderRadius.all(Radius.circular(6)),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey, offset: Offset(3.0, 3.0), //(x,y)
+            color: Colors.grey,
+            offset: Offset(3.0, 3.0), //(x,y)
             blurRadius: 10.0,
+            // spreadRadius: 10.0
           )
         ],
         border: Border.all(
@@ -56,7 +61,7 @@ class _SwitchItemState extends State<SwitchItem> {
       children: List<RockerTile>.generate(
         switchData.totalRockerSize,
         (index) => RockerTile(200 / switchData.rockerDimension.x,
-            200 / switchData.rockerDimension.y),
+            200 / switchData.rockerDimension.y, index),
       ),
     );
   }

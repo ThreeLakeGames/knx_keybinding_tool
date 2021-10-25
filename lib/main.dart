@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:knx_keybinding_tool/provider/main_area_data.dart';
 import 'package:knx_keybinding_tool/provider/sub_area_data.dart';
 import 'package:knx_keybinding_tool/screens/main_overview_screen.dart';
+import 'package:knx_keybinding_tool/screens/pdf_preview_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -21,6 +22,9 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         home: MainOverviewScreen(),
+        routes: {
+          PdfPreviewScreen.routeName: (ctx) => PdfPreviewScreen(),
+        },
       ),
     );
   }

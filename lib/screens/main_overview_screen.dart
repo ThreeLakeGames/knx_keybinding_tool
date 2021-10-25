@@ -1,26 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:knx_keybinding_tool/provider/main_area_data.dart';
+import 'package:knx_keybinding_tool/screens/pdf_preview_screen.dart';
 import 'package:knx_keybinding_tool/widgets/main_drawer.dart';
 import 'package:knx_keybinding_tool/widgets/new_sub_area.dart';
 import 'package:knx_keybinding_tool/widgets/new_switch.dart';
 import 'package:knx_keybinding_tool/widgets/sub_area_overview.dart';
 import 'package:provider/provider.dart';
-import 'package:pdf/pdf.dart';
-import 'package:pdf/widgets.dart' as pw;
 
-class MainOverviewScreen extends StatelessWidget {
+class MainOverviewScreen extends StatefulWidget {
+  @override
+  _MainOverviewScreenState createState() => _MainOverviewScreenState();
+}
+
+class _MainOverviewScreenState extends State<MainOverviewScreen> {
   @override
   Widget build(BuildContext context) {
     final mainAreaData = Provider.of<MainAreaData>(context);
-    final pdf = pw.Document();
-    pdf.addPage(
-      pw.Page(
-        build: (context) {
-          return pw.Center(child: pw.Text("Hallo"));
-        },
-      ),
-    );
-    pdf.save();
 
     return Scaffold(
       appBar: AppBar(
@@ -68,6 +63,8 @@ class MainOverviewScreen extends StatelessWidget {
       _startAddNewArea(ctx);
     } else if (value == "delete") {
       Provider.of<MainAreaData>(ctx, listen: false).deleteCurrentSubArea();
+    } else if (value == "export") {
+      Navigator.of(context).pushNamed(PdfPreviewScreen.routeName);
     }
   }
 

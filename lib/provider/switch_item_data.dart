@@ -26,6 +26,8 @@ class SwitchItemData with ChangeNotifier {
   switchMode switchDesign;
   String id;
 
+  List<String> rockerData = List<String>.generate(6, (index) => "");
+
   int get totalRockerSize {
     return (rockerDimension.x * rockerDimension.y).round();
   }
