@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:knx_keybinding_tool/pdf_widgets/pdf_switch_item.dart';
 import 'package:knx_keybinding_tool/provider/switch_item_data.dart';
 import 'package:knx_keybinding_tool/widgets/rocker_tile.dart';
-import 'package:pdf/pdf.dart';
 import 'package:provider/provider.dart';
-import 'package:pdf/widgets.dart' as pw;
 
 class SwitchItem extends StatefulWidget {
   @override

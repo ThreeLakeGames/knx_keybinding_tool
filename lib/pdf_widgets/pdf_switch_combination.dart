@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:knx_keybinding_tool/pdf_widgets/pdf_switch_item.dart';
 import 'package:knx_keybinding_tool/provider/switch_combination_item_data.dart';
 import 'package:knx_keybinding_tool/provider/switch_item_data.dart';

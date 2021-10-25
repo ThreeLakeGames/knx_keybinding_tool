@@ -15,7 +15,7 @@ class _NewSubAreaState extends State<NewSubArea> {
     0,
     DateTime.now().toString(),
   );
-  @override
+
   void _submitData() {
     final _isValid = _form.currentState.validate();
     _form.currentState.save();

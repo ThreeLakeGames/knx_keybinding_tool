@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:knx_keybinding_tool/provider/switch_combination_item_data.dart';
 import 'package:knx_keybinding_tool/provider/switch_item_data.dart';
 
