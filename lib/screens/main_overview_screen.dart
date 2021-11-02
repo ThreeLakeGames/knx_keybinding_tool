@@ -36,9 +36,16 @@ class _MainOverviewScreenState extends State<MainOverviewScreen> {
         },
       ),
       drawer: MainDrawer(_startAddNewArea),
-      body: IndexedStack(
-        children: _buildSubAreaItems(context),
-        index: mainAreaData.currentSubAreaIndex,
+      body:
+          // panEnabled: ,
+          // boundaryMargin: EdgeInsets.all(double.infinity),
+          Container(
+        width: double.infinity,
+        height: double.infinity,
+        child: IndexedStack(
+          children: _buildSubAreaItems(context),
+          index: mainAreaData.currentSubAreaIndex,
+        ),
       ),
     );
   }
@@ -95,7 +102,7 @@ class _MainOverviewScreenState extends State<MainOverviewScreen> {
               Icons.settings,
               color: Colors.black87,
             ),
-            Text("  edit sub-area"),
+            Text("  project settings"),
           ],
         ),
         value: "edit",

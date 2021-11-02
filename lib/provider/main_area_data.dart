@@ -3,8 +3,8 @@ import 'package:knx_keybinding_tool/provider/sub_area_data.dart';
 
 class MainAreaData with ChangeNotifier {
   List<SubAreaData> subAreas = [
-    SubAreaData("EG", 0, DateTime.now().toString()),
-    SubAreaData("OG", 1, DateTime.now().toString()),
+    SubAreaData("Erdgeschoss", 0, DateTime.now().toString()),
+    SubAreaData("Obergeschoss", 1, DateTime.now().toString()),
   ];
   int currentSubAreaIndex = 0;
 

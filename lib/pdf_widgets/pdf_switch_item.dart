@@ -72,7 +72,10 @@ class PdfRockerTile extends pw.StatelessWidget {
         ),
       ),
       child: pw.Center(
-        child: pw.Text(text),
+        child: pw.Text(
+          text,
+          textAlign: pw.TextAlign.center,
+        ),
       ),
     );
   }

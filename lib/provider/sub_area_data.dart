@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:knx_keybinding_tool/provider/demo_data.dart';
 import 'package:knx_keybinding_tool/provider/switch_combination_item_data.dart';
 import 'package:knx_keybinding_tool/provider/switch_item_data.dart';
 
@@ -6,10 +7,9 @@ class SubAreaData with ChangeNotifier {
   String id;
   String title;
   int index;
-  List<SwitchCombinationItemData> switchCombinationList = [
-    SwitchCombinationItemData("Wohnzimmer", [SwitchItemData()]),
-    SwitchCombinationItemData("Schlafzimmer", [SwitchItemData()]),
-  ];
+
+  List<SwitchCombinationItemData> switchCombinationList =
+      DemoData.testSwitchArea;
 
   SubAreaData(this.title, this.index, this.id);
 
