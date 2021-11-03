@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:knx_keybinding_tool/provider/demo_data.dart';
 import 'package:knx_keybinding_tool/provider/main_area_data.dart';
 import 'package:knx_keybinding_tool/provider/sub_area_data.dart';
 import 'package:provider/provider.dart';
@@ -14,6 +15,9 @@ class _NewSubAreaState extends State<NewSubArea> {
     "",
     0,
     DateTime.now().toString(),
+    [],
+    // use DemoData for initalized demo SwitchList
+    // DemoData().testSwitchArea,
   );
 
   void _submitData() {

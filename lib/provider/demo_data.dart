@@ -3,7 +3,7 @@ import 'package:knx_keybinding_tool/provider/switch_item_data.dart';
 import 'package:vector_math/vector_math.dart';
 
 class DemoData {
-  static List<SwitchCombinationItemData> testSwitchArea = [
+  List<SwitchCombinationItemData> testSwitchArea = [
     SwitchCombinationItemData("Wohnzimmer Tür", [
       SwitchItemData.withValues(
         [

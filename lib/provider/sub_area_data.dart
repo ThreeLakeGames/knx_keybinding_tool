@@ -8,10 +8,10 @@ class SubAreaData with ChangeNotifier {
   String title;
   int index;
 
-  List<SwitchCombinationItemData> switchCombinationList =
-      DemoData.testSwitchArea;
+  DemoData demoData = DemoData();
+  List<SwitchCombinationItemData> switchCombinationList = [];
 
-  SubAreaData(this.title, this.index, this.id);
+  SubAreaData(this.title, this.index, this.id, this.switchCombinationList);
 
   void addSwitchCombination(SwitchCombinationItemData newSwitchCombination) {
     switchCombinationList.add(newSwitchCombination);
