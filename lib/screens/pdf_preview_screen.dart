@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:knx_keybinding_tool/pdf_widgets/pdf_sub_area.dart';
 import 'package:knx_keybinding_tool/provider/main_area_data.dart';
 import 'package:pdf/pdf.dart';

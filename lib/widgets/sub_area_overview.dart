@@ -10,15 +10,21 @@ class SubAreaOverview extends StatelessWidget {
   Widget build(BuildContext context) {
     final switchCombinationDataList =
         Provider.of<SubAreaData>(context).switchCombinationList;
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(50.0),
-        child: Wrap(
-          spacing: 50,
-          children: _buildSwitchCombinationItems(switchCombinationDataList),
-        ),
-      ),
-    );
+
+    return switchCombinationDataList.isEmpty
+        ? Center(
+            child: Text("Noch keine Schalter hinzugefügt..."),
+          )
+        : SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(50.0),
+              child: Wrap(
+                spacing: 50,
+                children:
+                    _buildSwitchCombinationItems(switchCombinationDataList),
+              ),
+            ),
+          );
   }
 
   List<Widget> _buildSwitchCombinationItems(

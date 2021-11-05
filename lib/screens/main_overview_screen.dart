@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:knx_keybinding_tool/provider/main_area_data.dart';
 import 'package:knx_keybinding_tool/screens/pdf_preview_screen.dart';
+import 'package:knx_keybinding_tool/screens/project_settings_screen.dart';
 import 'package:knx_keybinding_tool/widgets/main_drawer.dart';
 import 'package:knx_keybinding_tool/widgets/new_sub_area.dart';
 import 'package:knx_keybinding_tool/widgets/new_switch.dart';
@@ -26,8 +27,9 @@ class _MainOverviewScreenState extends State<MainOverviewScreen> {
               },
               itemBuilder: (ctx) => appBarItems(context))
         ],
-        title:
-            Text("KNX - Tastenbelegung - " + mainAreaData.currentSubArea.title),
+        title: Text(mainAreaData.projectName +
+            " - " +
+            mainAreaData.currentSubArea.title),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
@@ -36,10 +38,7 @@ class _MainOverviewScreenState extends State<MainOverviewScreen> {
         },
       ),
       drawer: MainDrawer(_startAddNewArea),
-      body:
-          // panEnabled: ,
-          // boundaryMargin: EdgeInsets.all(double.infinity),
-          Container(
+      body: Container(
         width: double.infinity,
         height: double.infinity,
         child: IndexedStack(
@@ -72,6 +71,8 @@ class _MainOverviewScreenState extends State<MainOverviewScreen> {
       Provider.of<MainAreaData>(ctx, listen: false).deleteCurrentSubArea();
     } else if (value == "export") {
       Navigator.of(context).pushNamed(PdfPreviewScreen.routeName);
+    } else if (value == "project-settings") {
+      Navigator.of(context).pushNamed(ProjectSettingsScreen.routeName);
     }
   }
 
@@ -105,7 +106,7 @@ class _MainOverviewScreenState extends State<MainOverviewScreen> {
             Text("  project settings"),
           ],
         ),
-        value: "edit",
+        value: "project-settings",
       ),
       PopupMenuItem<String>(
         child: Row(

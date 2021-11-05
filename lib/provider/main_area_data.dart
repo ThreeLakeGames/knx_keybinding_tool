@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:knx_keybinding_tool/provider/sub_area_data.dart';
 
 class MainAreaData with ChangeNotifier {
+  String projectName;
   List<SubAreaData> subAreas = [
     SubAreaData("Erdgeschoss", 0, DateTime.now().toString(), []),
     SubAreaData("Obergeschoss", 1, DateTime.now().toString(), []),
@@ -9,7 +10,7 @@ class MainAreaData with ChangeNotifier {
 
   int currentSubAreaIndex = 0;
 
-  MainAreaData();
+  MainAreaData(this.projectName);
 
   SubAreaData get currentSubArea {
     // notifyListeners();
