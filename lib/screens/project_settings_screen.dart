@@ -32,24 +32,77 @@ class _ProjectSettingsScreenState extends State<ProjectSettingsScreen> {
       appBar: AppBar(
         title: Text(mainAreaData.projectName + " - Project Settings"),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(40.0),
-        child: LayoutBuilder(
-          builder: (ctx, constraints) {
-            return Column(
-              children: [
-                Row(
-                  children: [
-                    Text("project title:    "),
-                    Container(
-                      width: constraints.maxWidth * 0.3,
-                      child: _buildTitle(mainAreaData),
-                    ),
-                  ],
-                ),
-              ],
-            );
-          },
+      body: Container(
+        margin: const EdgeInsets.all(40.0),
+        decoration: BoxDecoration(
+          border: Border.all(color: Theme.of(context).primaryColor, width: 2),
+          borderRadius: BorderRadius.circular(14),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                  color: Theme.of(context).accentColor,
+                  border: Border.all(
+                      color: Theme.of(context).primaryColor, width: 3),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10),
+                  )),
+              child: Row(
+                children: [
+                  Text(
+                    " Project - Settings  ",
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline5
+                        .copyWith(color: Colors.white),
+                  ),
+                  Icon(
+                    Icons.settings,
+                    color: Colors.white,
+                  ),
+                ],
+              ),
+            ),
+            LayoutBuilder(
+              builder: (ctx, constraints) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 10,
+                      ),
+                      // Divider(),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "project title:    ",
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline5
+                                .copyWith(fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Container(
+                            // width: constraints.maxWidth * 0.3,
+                            child: _buildTitle(mainAreaData),
+                          ),
+                        ],
+                      ),
+                      Divider()
+                    ],
+                  ),
+                );
+              },
+            ),
+          ],
         ),
       ),
     );
@@ -80,18 +133,26 @@ class _ProjectSettingsScreenState extends State<ProjectSettingsScreen> {
               },
             )
           : Row(
+              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                TextButton(
+                Container(
+                  child: Text(
+                    mainAreaData.projectName,
+                    style: Theme.of(context).textTheme.headline5,
+                  ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                IconButton(
+                  color: Theme.of(context).primaryColor,
                   onPressed: () {
                     titleTextFocus.requestFocus();
                     setState(() {
                       _isTitleEditing = true;
                     });
                   },
-                  child: Text(
-                    mainAreaData.projectName,
-                    textAlign: TextAlign.start,
-                  ),
+                  icon: Icon(Icons.edit),
                 ),
               ],
             ),

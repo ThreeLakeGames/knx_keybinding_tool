@@ -7,4 +7,14 @@ class SwitchCombinationItemData with ChangeNotifier {
   List<SwitchItemData> switchList = [];
 
   SwitchCombinationItemData(this.title, this.switchList);
+
+  Map<String, dynamic> getSwitchCombinationTree() {
+    var switchData = List.generate(
+        switchList.length, (i) => switchList[i].getSwitchMetaData());
+    print(switchData);
+    return {
+      "title": this.title,
+      "switch_data": switchData,
+    };
+  }
 }

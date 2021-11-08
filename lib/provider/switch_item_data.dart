@@ -32,4 +32,16 @@ class SwitchItemData with ChangeNotifier {
   int get totalRockerSize {
     return (rockerDimension.x * rockerDimension.y).round();
   }
+
+  Map<String, dynamic> getSwitchMetaData() {
+    return {
+      "rowCount": rowSize,
+      "colCount": colSize,
+      "rockerData": getRockerData(),
+    };
+  }
+
+  List<String> getRockerData() {
+    return List<String>.generate(6, (index) => "index: $index");
+  }
 }
