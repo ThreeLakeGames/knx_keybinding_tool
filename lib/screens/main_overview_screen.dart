@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:knx_keybinding_tool/provider/main_area_data.dart';
 import 'package:knx_keybinding_tool/screens/pdf_preview_screen.dart';
@@ -14,6 +16,12 @@ class MainOverviewScreen extends StatefulWidget {
 }
 
 class _MainOverviewScreenState extends State<MainOverviewScreen> {
+  //update Screen after returning from settings-screen
+  FutureOr onGoBack(dynamic value) {
+    print("ON GO BACk");
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     final mainAreaData = Provider.of<MainAreaData>(context);
@@ -72,7 +80,10 @@ class _MainOverviewScreenState extends State<MainOverviewScreen> {
     } else if (value == "export") {
       Navigator.of(context).pushNamed(PdfPreviewScreen.routeName);
     } else if (value == "project-settings") {
-      Navigator.of(context).pushNamed(ProjectSettingsScreen.routeName);
+      Navigator.of(context)
+          .pushNamed(ProjectSettingsScreen.routeName)
+          .then(onGoBack);
+      ;
     }
   }
 
