@@ -83,7 +83,6 @@ class _MainOverviewScreenState extends State<MainOverviewScreen> {
       Navigator.of(context)
           .pushNamed(ProjectSettingsScreen.routeName)
           .then(onGoBack);
-      ;
     } else if (value == "save") {
       Provider.of<MainAreaData>(context, listen: false)
           .currentSubArea
