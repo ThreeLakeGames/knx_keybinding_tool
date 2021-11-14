@@ -35,13 +35,14 @@ class SwitchItemData with ChangeNotifier {
 
   Map<String, dynamic> getSwitchMetaData() {
     return {
-      "rowCount": rowSize,
-      "colCount": colSize,
+      "colCount": rockerDimension.x,
+      "rowCount": rockerDimension.y,
       "rockerData": getRockerData(),
     };
   }
 
   List<String> getRockerData() {
-    return List<String>.generate(6, (index) => "index: $index");
+    return rockerData;
+    // return List<String>.generate(6, (index) => "index: $index");
   }
 }

@@ -86,7 +86,11 @@ class _MainOverviewScreenState extends State<MainOverviewScreen> {
     } else if (value == "save") {
       Provider.of<MainAreaData>(context, listen: false)
           .currentSubArea
-          .storeSubArea();
+          .updateSubArea();
+    } else if (value == "load") {
+      Provider.of<MainAreaData>(context, listen: false)
+          .currentSubArea
+          .loadSubArea();
     }
   }
 
@@ -169,6 +173,18 @@ class _MainOverviewScreenState extends State<MainOverviewScreen> {
           ],
         ),
         value: "save",
+      ),
+      PopupMenuItem<String>(
+        child: Row(
+          children: [
+            Icon(
+              Icons.download,
+              color: Colors.black87,
+            ),
+            Text(" load project"),
+          ],
+        ),
+        value: "load",
       ),
     ];
   }
