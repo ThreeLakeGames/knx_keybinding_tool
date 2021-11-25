@@ -17,6 +17,7 @@ class SubAreaData with ChangeNotifier {
   List<SwitchCombinationItemData> switchCombinationList = [];
 
   SubAreaData(this.title, this.index, this.id, this.switchCombinationList);
+  // SubAreaData.fromWebServer(this.title, this.index, this.id, this.switchCombinationList);
 
   void addSwitchCombination(SwitchCombinationItemData newSwitchCombination) {
     // final url = Uri.parse(
@@ -37,7 +38,7 @@ class SubAreaData with ChangeNotifier {
 
   Future<void> deleteSubArea() async {
     final url = Uri.parse(
-        "https://knx-switchplanningtool-default-rtdb.europe-west1.firebasedatabase.app/sub_area$title.json");
+        "https://knx-switchplanningtool-default-rtdb.europe-west1.firebasedatabase.app/$title.json");
     await http.delete(url).catchError((error) {
       print(error.toString());
       throw error;
@@ -51,7 +52,7 @@ class SubAreaData with ChangeNotifier {
         key: (switchCombItem) => switchCombItem.title,
         value: (switchCombItem) => switchCombItem.getSwitchCombinationTree());
     final url = Uri.parse(
-        "https://knx-switchplanningtool-default-rtdb.europe-west1.firebasedatabase.app/sub_area$title.json");
+        "https://knx-switchplanningtool-default-rtdb.europe-west1.firebasedatabase.app/$title.json");
 
     await http
         .post(url, body: json.encode(switchCombinationMap))
@@ -67,9 +68,9 @@ class SubAreaData with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> loadSubArea() async {
+  Future<void> loadCurrentSubArea() async {
     final url = Uri.parse(
-        "https://knx-switchplanningtool-default-rtdb.europe-west1.firebasedatabase.app/sub_area$title.json");
+        "https://knx-switchplanningtool-default-rtdb.europe-west1.firebasedatabase.app/$title.json");
     final response = await http.get(url);
     final loadedSubArea = json.decode(response.body) as Map<String, dynamic>;
     final switchData = loadedSubArea.values.first;

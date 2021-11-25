@@ -16,7 +16,7 @@ class PdfSwitchCombination extends pw.StatelessWidget {
       child: pw.Column(
         children: [
           pw.Text(switchCombinationItemData.title,
-              softWrap: true, style: pw.TextStyle(color: PdfColors.blue)),
+              softWrap: false, style: pw.TextStyle(color: PdfColors.blue)),
           pw.SizedBox(height: 4),
           pw.Column(
             children: _buildSwitchItems(switchCombinationItemData.switchList),
@@ -30,6 +30,8 @@ class PdfSwitchCombination extends pw.StatelessWidget {
     List<pw.Widget> switchItemList = [];
     switchList.forEach(
       (switchItemData) {
+        print("title:  ${switchItemData.toString()}");
+
         switchItemList.add(
           pw.Column(
             children: [

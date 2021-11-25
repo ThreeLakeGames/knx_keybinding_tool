@@ -27,6 +27,8 @@ class _PdfPreviewScreenState extends State<PdfPreviewScreen> {
     );
   }
 
+  pw.Document x;
+
   Widget _buildSubAreaDocument(MainAreaData mainAreaData) {
     return PdfPreview(
         maxPageWidth: 900,

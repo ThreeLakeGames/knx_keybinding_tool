@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:knx_keybinding_tool/provider/main_area_data.dart';
+import 'package:knx_keybinding_tool/screens/default_screen.dart';
 import 'package:knx_keybinding_tool/screens/pdf_preview_screen.dart';
 import 'package:knx_keybinding_tool/screens/project_settings_screen.dart';
 import 'package:knx_keybinding_tool/widgets/main_drawer.dart';
@@ -26,35 +27,37 @@ class _MainOverviewScreenState extends State<MainOverviewScreen> {
   Widget build(BuildContext context) {
     final mainAreaData = Provider.of<MainAreaData>(context);
 
-    return Scaffold(
-      appBar: AppBar(
-        actions: [
-          PopupMenuButton(
-              onSelected: (value) {
-                _handlePopUpMenuButton(context, value);
+    return mainAreaData.subAreas.isEmpty
+        ? DefaultScreen(_startAddNewArea)
+        : Scaffold(
+            appBar: AppBar(
+              actions: [
+                PopupMenuButton(
+                    onSelected: (value) {
+                      _handlePopUpMenuButton(context, value);
+                    },
+                    itemBuilder: (ctx) => appBarItems(context))
+              ],
+              title: Text(mainAreaData.projectName +
+                  " - " +
+                  mainAreaData.currentSubArea.title),
+            ),
+            floatingActionButton: FloatingActionButton(
+              child: Icon(Icons.add),
+              onPressed: () {
+                _startAddNewSwitch(context);
               },
-              itemBuilder: (ctx) => appBarItems(context))
-        ],
-        title: Text(mainAreaData.projectName +
-            " - " +
-            mainAreaData.currentSubArea.title),
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          _startAddNewSwitch(context);
-        },
-      ),
-      drawer: MainDrawer(_startAddNewArea),
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        child: IndexedStack(
-          children: _buildSubAreaItems(context),
-          index: mainAreaData.currentSubAreaIndex,
-        ),
-      ),
-    );
+            ),
+            drawer: MainDrawer(_startAddNewArea),
+            body: Container(
+              width: double.infinity,
+              height: double.infinity,
+              child: IndexedStack(
+                children: _buildSubAreaItems(context),
+                index: mainAreaData.currentSubAreaIndex,
+              ),
+            ),
+          );
   }
 
   List<Widget> _buildSubAreaItems(BuildContext context) {
@@ -84,13 +87,12 @@ class _MainOverviewScreenState extends State<MainOverviewScreen> {
           .pushNamed(ProjectSettingsScreen.routeName)
           .then(onGoBack);
     } else if (value == "save") {
-      Provider.of<MainAreaData>(context, listen: false)
-          .currentSubArea
-          .updateSubArea();
+      Provider.of<MainAreaData>(context, listen: false).storeAllSubAreas();
     } else if (value == "load") {
-      Provider.of<MainAreaData>(context, listen: false)
-          .currentSubArea
-          .loadSubArea();
+      Provider.of<MainAreaData>(context, listen: false).loadSubAreas();
+      // Provider.of<MainAreaData>(context, listen: false)
+      //     .currentSubArea
+      //     .loadCurrentSubArea();
     }
   }
 

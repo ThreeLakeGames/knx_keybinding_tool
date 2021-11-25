@@ -26,7 +26,7 @@ class PdfSubArea extends pw.StatelessWidget {
       pw.Padding(
         padding: const pw.EdgeInsets.all(20.0),
         child: pw.Wrap(
-          spacing: 40,
+          spacing: 20,
           runSpacing: 10,
           children:
               _buildSwitchCombinationItems(subAreaData.switchCombinationList),
@@ -38,8 +38,10 @@ class PdfSubArea extends pw.StatelessWidget {
   List<pw.Widget> _buildSwitchCombinationItems(
       List<SwitchCombinationItemData> switchCombinationDataList) {
     List<pw.Widget> switchCombinationList = [];
+
     switchCombinationDataList.forEach(
       (switchCombinationData) {
+        // print("title:  ${switchCombinationData.title}");
         switchCombinationList.add(PdfSwitchCombination(switchCombinationData));
       },
     );

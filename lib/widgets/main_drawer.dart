@@ -54,7 +54,8 @@ class MainDrawer extends StatelessWidget {
           buildListTile("add area", Icons.add, () {
             Navigator.of(context).pop();
             addNewArea(context);
-          })
+          }),
+          Divider(),
         ],
       ),
     );
