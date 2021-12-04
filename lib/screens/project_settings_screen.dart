@@ -30,7 +30,7 @@ class _ProjectSettingsScreenState extends State<ProjectSettingsScreen> {
     final mainAreaData = Provider.of<MainAreaData>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(mainAreaData.projectName + " - Project Settings"),
+        title: Text(mainAreaData.projectName + " - Projekt-Einstellungen"),
       ),
       body: Container(
         margin: const EdgeInsets.all(40.0),
@@ -53,7 +53,8 @@ class _ProjectSettingsScreenState extends State<ProjectSettingsScreen> {
               child: Row(
                 children: [
                   Text(
-                    " Project - Settings  ",
+                    " Projekt-Einstellungen  ",
+                    // " Project - Settings  ",
                     style: Theme.of(context)
                         .textTheme
                         .headline5
@@ -81,7 +82,8 @@ class _ProjectSettingsScreenState extends State<ProjectSettingsScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "project title:    ",
+                            "Projekt Titel:    ",
+                            // "project title:    ",
                             style: Theme.of(context)
                                 .textTheme
                                 .headline5
