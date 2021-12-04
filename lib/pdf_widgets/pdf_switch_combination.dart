@@ -30,7 +30,7 @@ class PdfSwitchCombination extends pw.StatelessWidget {
     List<pw.Widget> switchItemList = [];
     switchList.forEach(
       (switchItemData) {
-        print("title:  ${switchItemData.toString()}");
+        // print("title:  ${switchItemData.toString()}");
 
         switchItemList.add(
           pw.Column(

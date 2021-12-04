@@ -27,8 +27,8 @@ class MainDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Drawer(
-      child: Column(
+    return Drawer(child: LayoutBuilder(builder: (ctx, constraints) {
+      return Column(
         children: [
           Container(
             height: 24,
@@ -48,16 +48,27 @@ class MainDrawer extends StatelessWidget {
                   fontWeight: FontWeight.bold),
             ),
           ),
-          Column(
-            children: buildSubAreaItems(context),
-          ),
-          buildListTile("add area", Icons.add, () {
-            Navigator.of(context).pop();
-            addNewArea(context);
-          }),
-          Divider(),
+          Container(
+            height: constraints.maxHeight - 104,
+            child: buildContentList(context),
+          )
         ],
-      ),
+      );
+    }));
+  }
+
+  Widget buildContentList(BuildContext context) {
+    return ListView(
+      children: [
+        Column(
+          children: buildSubAreaItems(context),
+        ),
+        buildListTile("add area", Icons.add, () {
+          Navigator.of(context).pop();
+          addNewArea(context);
+        }),
+        Divider(),
+      ],
     );
   }
 

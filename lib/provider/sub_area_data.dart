@@ -9,6 +9,7 @@ import '../provider/demo_data.dart';
 import '../provider/switch_combination_item_data.dart';
 
 class SubAreaData with ChangeNotifier {
+  String projectTitle;
   String id;
   String title;
   int index;
@@ -16,18 +17,11 @@ class SubAreaData with ChangeNotifier {
   DemoData demoData = DemoData();
   List<SwitchCombinationItemData> switchCombinationList = [];
 
-  SubAreaData(this.title, this.index, this.id, this.switchCombinationList);
+  SubAreaData(this.title, this.index, this.id, this.switchCombinationList,
+      {this.projectTitle});
   // SubAreaData.fromWebServer(this.title, this.index, this.id, this.switchCombinationList);
 
   void addSwitchCombination(SwitchCombinationItemData newSwitchCombination) {
-    // final url = Uri.parse(
-    //     "https://knx-switchplanningtool-default-rtdb.europe-west1.firebasedatabase.app/sub_area$title.json");
-    // http
-    //     .post(url,
-    //         body: json.encode(newSwitchCombination.getSwitchCombinationTree()))
-    //     .catchError((error) {
-    //   print(error.toString());
-    // });
     switchCombinationList.add(newSwitchCombination);
     notifyListeners();
   }
@@ -74,11 +68,9 @@ class SubAreaData with ChangeNotifier {
     final response = await http.get(url);
     final loadedSubArea = json.decode(response.body) as Map<String, dynamic>;
     final switchData = loadedSubArea.values.first;
-    // print(loadedSubArea);
     switchData.forEach(
       (title, value) {
         List<SwitchItemData> newSwitchItemList = [];
-        // print("key: $title \nvalue: $value");
         List<dynamic> switchData = value["switch_data"];
         switchData.forEach(
           (switchItemMap) {
@@ -87,12 +79,11 @@ class SubAreaData with ChangeNotifier {
             final newSwitchItem = SwitchItemData.withValues(
               rockerData,
               Vector2(
-                switchItemMap["colCount"],
-                switchItemMap["rowCount"],
+                (switchItemMap["colCount"] as int).toDouble(),
+                (switchItemMap["rowCount"] as int).toDouble(),
               ),
             );
             newSwitchItemList.add(newSwitchItem);
-            print("element:  $switchItemMap");
           },
         );
         SwitchCombinationItemData newSwitchComb =
@@ -101,5 +92,26 @@ class SubAreaData with ChangeNotifier {
         notifyListeners();
       },
     );
+  }
+
+  List<List<SwitchCombinationItemData>> getSwitchCombinationPdfExport(
+      bool landscape) {
+    List<List<SwitchCombinationItemData>> pdfExportList = [];
+
+    int switchesPerPage = 8;
+    if (landscape == true) {
+      switchesPerPage = 5;
+    }
+    int pageCount = (switchCombinationList.length / switchesPerPage).ceil();
+
+    for (int i = 0; i < pageCount; i++) {
+      var subListStart = i * switchesPerPage;
+      var subListEnd = (subListStart + switchesPerPage)
+          .clamp(0, switchCombinationList.length);
+
+      pdfExportList
+          .add(switchCombinationList.sublist(subListStart, subListEnd));
+    }
+    return pdfExportList;
   }
 }

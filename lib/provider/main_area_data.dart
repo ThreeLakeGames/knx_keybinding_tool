@@ -23,6 +23,7 @@ class MainAreaData with ChangeNotifier {
 
   void addNewSubArea(SubAreaData newSubArea) {
     currentSubAreaIndex = subAreas.length;
+    newSubArea.projectTitle = projectName;
     subAreas.add(newSubArea);
     notifyListeners();
   }
@@ -78,8 +79,8 @@ class MainAreaData with ChangeNotifier {
     subAreas.forEach(
       (subArea) {
         if (subArea.title == title) {
+          subArea.projectTitle = projectName;
           subArea.loadCurrentSubArea();
-          print("loaded title equals existing title");
           isTitleExisting = true;
         }
       },

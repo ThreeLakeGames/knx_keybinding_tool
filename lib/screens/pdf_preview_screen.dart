@@ -27,30 +27,47 @@ class _PdfPreviewScreenState extends State<PdfPreviewScreen> {
     );
   }
 
-  pw.Document x;
-
   Widget _buildSubAreaDocument(MainAreaData mainAreaData) {
+    print("Export started");
     return PdfPreview(
         maxPageWidth: 900,
         build: (format) {
+          print("format height: ${format.height}");
+          print("format width: ${format.width}");
           final subAreaDocument = _createDocument(mainAreaData, format);
 
-          return subAreaDocument.save();
+          return subAreaDocument
+              .save()
+              .whenComplete(() => print("export finished"));
         });
   }
 
   pw.Document _createDocument(MainAreaData mainAreaData, PdfPageFormat format) {
     final mainAreaDocument = pw.Document();
+    final _isLandscape = format.width > format.height;
+
     mainAreaData.subAreas.forEach(
       (subAreaData) {
-        mainAreaDocument.addPage(pw.Page(
-            pageFormat: format,
-            build: (ctx) {
-              return PdfSubArea(subAreaData);
-            }));
+        final subAreaPages = PdfSubAreaGenerator(subAreaData)
+            .generatePdfSubAreaList(_isLandscape);
+        subAreaPages.forEach((subAreaPage) {
+          final newPage = _createPage(subAreaPage, format);
+          print(newPage.orientation);
+          mainAreaDocument.addPage(newPage);
+        });
       },
     );
+
     return mainAreaDocument;
+  }
+
+  pw.Page _createPage(PdfSubArea subAreaPage, PdfPageFormat format) {
+    return pw.Page(
+        margin: pw.EdgeInsets.all(22),
+        pageFormat: format,
+        build: (ctx) {
+          return subAreaPage;
+        });
   }
 
 //----- this code was used to allow scrolling with an interactiveViewer -------------
