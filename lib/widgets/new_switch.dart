@@ -41,13 +41,15 @@ class _NewSwitchState extends State<NewSwitch> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Add new Switch"),
+                    Text("Neuen Schalter hinzufügen"),
+                    // Text("Add new Switch"),
                     TextFormField(
                       autofocus: true,
-                      decoration: InputDecoration(labelText: "Title"),
+                      decoration: InputDecoration(labelText: "Titel"),
                       validator: (value) {
                         if (value.isEmpty) {
-                          return "Plese Enter valid Title";
+                          return "Bitte gültigen Titel eingeben";
+                          // return "Plese Enter valid Title";
                         }
                         return null;
                       },
@@ -58,7 +60,8 @@ class _NewSwitchState extends State<NewSwitch> {
                     SizedBox(
                       height: 25,
                     ),
-                    Text("Combination Size:"),
+                    Text("Schalter-Anzahl"),
+                    // Text("Combination Size:"),
                     DropdownButtonFormField(
                       items: _switchCombinationLengthItems,
                       value: _selectedCombinationLength,
@@ -78,7 +81,10 @@ class _NewSwitchState extends State<NewSwitch> {
                       height: 20,
                     ),
                     ElevatedButton(
-                        onPressed: _submitData, child: Text("Add new switch"))
+                      onPressed: _submitData,
+                      child: Text("Schalter hinzufügen"),
+                      // child: Text("Add new switch"),
+                    )
                   ],
                 ),
               ),

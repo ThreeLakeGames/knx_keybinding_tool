@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       create: (_) => MainAreaData("IFK Salzburg"),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
+        title: 'Tastenbelegungsplaner',
         theme: ThemeData(
           primarySwatch: Colors.blue,
           // textTheme: TextTheme(headline1: TextStyle())

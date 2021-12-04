@@ -50,7 +50,8 @@ class _NewSubAreaState extends State<NewSubArea> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "add new sub-area",
+                  "Neuen Bereich hinzufügen",
+                  // "add new sub-area",
                   style: TextStyle(
                       // fontWeight: FontWeight.bold,
                       // fontSize: 18,
@@ -62,10 +63,11 @@ class _NewSubAreaState extends State<NewSubArea> {
                 TextFormField(
                   autofocus: true,
                   decoration: InputDecoration(
-                      labelText: "Title", hintText: "z.B. Erdgeschoss"),
+                      labelText: "Titel", hintText: "z.B. Erdgeschoss"),
                   validator: (value) {
                     if (value.isEmpty) {
-                      return "Plese Enter valid Title";
+                      return "Bitte gültigen Titel eingeben";
+                      // return "Plese Enter valid Title";
                     }
                     return null;
                   },
@@ -78,7 +80,8 @@ class _NewSubAreaState extends State<NewSubArea> {
                 ),
                 ElevatedButton(
                   onPressed: _submitData,
-                  child: Text("Add new area"),
+                  child: Text("Neuen Bereich hinzufügen"),
+                  // child: Text("Add new area"),
                 )
               ],
             ),

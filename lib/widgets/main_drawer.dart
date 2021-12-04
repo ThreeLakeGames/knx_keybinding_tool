@@ -63,10 +63,15 @@ class MainDrawer extends StatelessWidget {
         Column(
           children: buildSubAreaItems(context),
         ),
-        buildListTile("add area", Icons.add, () {
-          Navigator.of(context).pop();
-          addNewArea(context);
-        }),
+        buildListTile(
+          "Bereich hinzufügen",
+          // "add area",
+          Icons.add,
+          () {
+            Navigator.of(context).pop();
+            addNewArea(context);
+          },
+        ),
         Divider(),
       ],
     );

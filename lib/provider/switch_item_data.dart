@@ -11,11 +11,16 @@ class SwitchItemData with ChangeNotifier {
     "single rocker"
   ];
   static Map<String, Vector2> switchTypes = {
-    "six rockers (2x3)": Vector2(2, 3),
-    "four rockers (2x2)": Vector2(2, 2),
-    "two rockers vertical (1x2)": Vector2(1, 2),
-    "two rockers horizontal(2x1)": Vector2(2, 1),
-    "single rocker (1x1)": Vector2(1, 1),
+    "6 Tasten (2x3)": Vector2(2, 3),
+    "4 Tasten (2x2)": Vector2(2, 2),
+    "2 Tasten-übereinander (1x2)": Vector2(1, 2),
+    "2 Tasten-nebeneinander(2x1)": Vector2(2, 1),
+    "Einzeltaste (1x1)": Vector2(1, 1),
+    // "six rockers (2x3)": Vector2(2, 3),
+    // "four rockers (2x2)": Vector2(2, 2),
+    // "two rockers vertical (1x2)": Vector2(1, 2),
+    // "two rockers horizontal(2x1)": Vector2(2, 1),
+    // "single rocker (1x1)": Vector2(1, 1),
   };
 
   int colSize = 2;
