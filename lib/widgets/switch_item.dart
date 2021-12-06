@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:knx_keybinding_tool/provider/main_area_data.dart';
 import 'package:knx_keybinding_tool/provider/switch_item_data.dart';
 import 'package:knx_keybinding_tool/widgets/rocker_tile.dart';
 import 'package:provider/provider.dart';
@@ -10,7 +11,6 @@ class SwitchItem extends StatefulWidget {
 
 class _SwitchItemState extends State<SwitchItem> {
   FocusScopeNode switchFocusNode;
-  bool shouldRenderImage = true;
 
   @override
   void initState() {
@@ -29,6 +29,8 @@ class _SwitchItemState extends State<SwitchItem> {
   @override
   Widget build(BuildContext context) {
     final switchData = Provider.of<SwitchItemData>(context);
+    bool shouldRenderImage =
+        Provider.of<MainAreaData>(context, listen: false).shouldRenderImages;
 
     return Container(
       width: 204,
@@ -36,8 +38,7 @@ class _SwitchItemState extends State<SwitchItem> {
       decoration: shouldRenderImage
           ? BoxDecoration(
               image: DecorationImage(
-                image: AssetImage(
-                    "assets/switchImages/Berker/BERKER_3-Wippen.jpg"),
+                image: AssetImage(switchData.imageUrl),
               ),
               boxShadow: [
                   BoxShadow(
@@ -63,11 +64,12 @@ class _SwitchItemState extends State<SwitchItem> {
                 color: Colors.black,
               ),
             ),
-      child: _buildSpecificSwitch(switchData),
+      child: _buildSpecificSwitch(switchData, shouldRenderImage),
     );
   }
 
-  Widget _buildSpecificSwitch(SwitchItemData switchData) {
+  Widget _buildSpecificSwitch(
+      SwitchItemData switchData, bool shouldRenderImage) {
     return Wrap(
       crossAxisAlignment: WrapCrossAlignment.start,
       children: List<RockerTile>.generate(

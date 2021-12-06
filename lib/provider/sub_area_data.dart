@@ -77,12 +77,13 @@ class SubAreaData with ChangeNotifier {
             List<dynamic> rawRockerData = switchItemMap["rockerData"];
             final rockerData = rawRockerData.map((e) => e.toString()).toList();
             final newSwitchItem = SwitchItemData.withValues(
-              rockerData,
-              Vector2(
-                (switchItemMap["colCount"] as int).toDouble(),
-                (switchItemMap["rowCount"] as int).toDouble(),
-              ),
-            );
+                rockerData,
+                Vector2(
+                  (switchItemMap["colCount"] as int).toDouble(),
+                  (switchItemMap["rowCount"] as int).toDouble(),
+                ),
+                switchItemMap["switchType"]);
+            newSwitchItem.updateSwitchType();
             newSwitchItemList.add(newSwitchItem);
           },
         );

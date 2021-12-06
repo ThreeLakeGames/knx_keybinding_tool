@@ -11,6 +11,20 @@ class ProjectSettingsScreen extends StatefulWidget {
 }
 
 class _ProjectSettingsScreenState extends State<ProjectSettingsScreen> {
+  List<DropdownMenuItem> brandItems = [
+    DropdownMenuItem(
+      child: Text("default", style: TextStyle(fontSize: 24)),
+      value: "default",
+    ),
+    DropdownMenuItem(
+      child: Text(
+        "Berker",
+        style: TextStyle(fontSize: 24),
+      ),
+      value: "berker",
+    ),
+  ];
+
   bool _isTitleEditing = false;
   FocusNode titleTextFocus;
   @override
@@ -98,7 +112,34 @@ class _ProjectSettingsScreenState extends State<ProjectSettingsScreen> {
                           ),
                         ],
                       ),
-                      Divider()
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Divider(),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "Schaltertyp/Marke:    ",
+                        // "project title:    ",
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline5
+                            .copyWith(fontWeight: FontWeight.bold),
+                      ),
+                      DropdownButton(
+                        items: brandItems,
+                        value: "default",
+                        onChanged: (value) => value,
+                      ),
+                      Switch(
+                          value: mainAreaData.shouldRenderImages,
+                          onChanged: (value) {
+                            setState(() {
+                              mainAreaData.setSwitchImages(value);
+                            });
+                          }),
+                      Divider(),
                     ],
                   ),
                 );

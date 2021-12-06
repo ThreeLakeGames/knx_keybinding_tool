@@ -36,15 +36,47 @@ class SwitchItemData with ChangeNotifier {
   int rowSize = 3;
   Vector2 rockerDimension = Vector2(2, 3);
 
+  String switchType = "6 Tasten (2x3)";
+  String imageUrl = "assets/switchImages/Berker/BERKER_3-Wippen.jpg";
   switchMode switchDesign;
   String id;
 
   List<String> rockerData = List<String>.generate(6, (index) => "");
   SwitchItemData();
-  SwitchItemData.withValues(this.rockerData, this.rockerDimension);
+  SwitchItemData.withValues(
+      this.rockerData, this.rockerDimension, this.switchType);
 
   int get totalRockerSize {
     return (rockerDimension.x * rockerDimension.y).round();
+  }
+
+  void setSwitchType(String switchType) {
+    this.switchType = switchType;
+  }
+
+  void updateSwitchType() {
+    switch (switchType) {
+      case "6 Tasten (2x3)":
+        rockerDimension = Vector2(2, 3);
+        imageUrl = "assets/switchImages/Berker/BERKER_3-Wippen.jpg";
+        break;
+      case "4 Tasten (2x2)":
+        rockerDimension = Vector2(2, 2);
+        imageUrl = "assets/switchImages/Berker/BERKER_2-Wippen_V.jpg";
+        break;
+      case "2 Tasten-übereinander (1x2)":
+        rockerDimension = Vector2(1, 2);
+        imageUrl = "assets/switchImages/Berker/BERKER_2-Wippen_V.jpg";
+        break;
+      case "2 Tasten-nebeneinander(2x1)":
+        rockerDimension = Vector2(2, 1);
+        imageUrl = "assets/switchImages/Berker/BERKER_2-Wippen_H.jpg";
+        break;
+      case "Einzeltaste (1x1)":
+        rockerDimension = Vector2(1, 1);
+        imageUrl = "assets/switchImages/Berker/BERKER_1-Wippe.jpg";
+        break;
+    }
   }
 
   // function for saving the switch to server
@@ -53,6 +85,7 @@ class SwitchItemData with ChangeNotifier {
       "colCount": rockerDimension.x,
       "rowCount": rockerDimension.y,
       "rockerData": getRockerData(),
+      "switchType": switchType,
     };
   }
 

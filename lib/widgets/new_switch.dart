@@ -101,8 +101,16 @@ class _NewSwitchState extends State<NewSwitch> {
     if (!_isValid) {
       return;
     }
+    // trim the switchList to the chosen number of switches
     newSwitchCombinationData.switchList = newSwitchCombinationData.switchList
         .sublist(0, _selectedCombinationLength);
+
+    //update the switchType (imageData+dimensions) for each switch
+    newSwitchCombinationData.switchList.forEach((switchData) {
+      switchData.updateSwitchType();
+    });
+
+    //add the combination to the main area
     Provider.of<MainAreaData>(context, listen: false)
         .currentSubArea
         .addSwitchCombination(newSwitchCombinationData);
@@ -121,12 +129,12 @@ class _NewSwitchState extends State<NewSwitch> {
     return combinationLengthItems;
   }
 
-  List<DropdownMenuItem<Vector2>> get _switchTypesItems {
-    List<DropdownMenuItem<Vector2>> dropdownItems = [];
+  List<DropdownMenuItem<String>> get _switchTypesItems {
+    List<DropdownMenuItem<String>> dropdownItems = [];
     SwitchItemData.switchTypes.forEach((name, value) {
       dropdownItems.add(DropdownMenuItem(
         child: Text(name),
-        value: value,
+        value: name,
       ));
     });
     return dropdownItems;
@@ -143,11 +151,11 @@ class _NewSwitchState extends State<NewSwitch> {
             Text("Schalter ${i + 1}  "),
             Container(
               width: constraints.maxWidth * 0.8,
-              child: DropdownButtonFormField<Vector2>(
+              child: DropdownButtonFormField<String>(
                 items: _switchTypesItems,
                 value: _switchTypesItems[0].value,
                 onChanged: (val) {
-                  newSwitchCombinationData.switchList[i].rockerDimension = val;
+                  newSwitchCombinationData.switchList[i].setSwitchType(val);
                 },
               ),
             ),

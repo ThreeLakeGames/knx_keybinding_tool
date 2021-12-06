@@ -13,6 +13,7 @@ class MainAreaData with ChangeNotifier {
   ];
 
   int currentSubAreaIndex = 0;
+  bool shouldRenderImages = true;
 
   MainAreaData(this.projectName);
 
@@ -95,6 +96,11 @@ class MainAreaData with ChangeNotifier {
         SubAreaData(title, subAreas.length, DateTime.now().toString(), []);
     newSubArea.loadCurrentSubArea();
     addNewSubArea(newSubArea);
+    notifyListeners();
+  }
+
+  void setSwitchImages(bool shouldRenderImg) {
+    shouldRenderImages = shouldRenderImg;
     notifyListeners();
   }
 }
