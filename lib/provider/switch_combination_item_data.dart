@@ -8,10 +8,10 @@ class SwitchCombinationItemData with ChangeNotifier {
 
   SwitchCombinationItemData(this.title, this.switchList);
 
+  // this function is used for saving the switches to webserver
   Map<String, dynamic> getSwitchCombinationTree() {
     var switchData = List.generate(
         switchList.length, (i) => switchList[i].getSwitchMetaData());
-    print(switchData);
     return {
       "title": this.title,
       "switch_data": switchData,

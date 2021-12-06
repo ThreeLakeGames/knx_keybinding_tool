@@ -10,6 +10,7 @@ class SwitchItem extends StatefulWidget {
 
 class _SwitchItemState extends State<SwitchItem> {
   FocusScopeNode switchFocusNode;
+  bool shouldRenderImage = true;
 
   @override
   void initState() {
@@ -28,25 +29,40 @@ class _SwitchItemState extends State<SwitchItem> {
   @override
   Widget build(BuildContext context) {
     final switchData = Provider.of<SwitchItemData>(context);
+
     return Container(
       width: 204,
       height: 204,
-      decoration: BoxDecoration(
-        color: Color.fromRGBO(200, 200, 200, 1),
-        borderRadius: BorderRadius.all(Radius.circular(6)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey,
-            offset: Offset(3.0, 3.0), //(x,y)
-            blurRadius: 10.0,
-            // spreadRadius: 10.0
-          )
-        ],
-        border: Border.all(
-          width: 2,
-          color: Colors.black,
-        ),
-      ),
+      decoration: shouldRenderImage
+          ? BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(
+                    "assets/switchImages/Berker/BERKER_3-Wippen.jpg"),
+              ),
+              boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey,
+                    offset: Offset(3.0, 3.0), //(x,y)
+                    blurRadius: 10.0,
+                    // spreadRadius: 10.0
+                  ),
+                ])
+          : BoxDecoration(
+              color: Color.fromRGBO(200, 200, 200, 1),
+              borderRadius: BorderRadius.all(Radius.circular(6)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey,
+                  offset: Offset(3.0, 3.0), //(x,y)
+                  blurRadius: 10.0,
+                  // spreadRadius: 10.0
+                )
+              ],
+              border: Border.all(
+                width: 2,
+                color: Colors.black,
+              ),
+            ),
       child: _buildSpecificSwitch(switchData),
     );
   }
@@ -57,7 +73,7 @@ class _SwitchItemState extends State<SwitchItem> {
       children: List<RockerTile>.generate(
         switchData.totalRockerSize,
         (index) => RockerTile(200 / switchData.rockerDimension.x,
-            200 / switchData.rockerDimension.y, index),
+            200 / switchData.rockerDimension.y, index, shouldRenderImage),
       ),
     );
   }

@@ -121,15 +121,6 @@ class _NewSwitchState extends State<NewSwitch> {
     return combinationLengthItems;
   }
 
-  // List<DropdownMenuItem<int>> get _switchDesignNamesItems {
-  //   return SwitchItemData.switchDesignNames.map((option) {
-  //     return DropdownMenuItem<int>(
-  //       child: Text(option),
-  //       value: SwitchItemData.switchDesignNames.indexOf(option),
-  //     );
-  //   }).toList();
-  // }
-
   List<DropdownMenuItem<Vector2>> get _switchTypesItems {
     List<DropdownMenuItem<Vector2>> dropdownItems = [];
     SwitchItemData.switchTypes.forEach((name, value) {

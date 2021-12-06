@@ -3,11 +3,12 @@ import 'package:knx_keybinding_tool/provider/switch_item_data.dart';
 import 'package:provider/provider.dart';
 
 class RockerTile extends StatefulWidget {
+  final shouldRenderImage;
   final width;
   final height;
   final index;
 
-  RockerTile(this.width, this.height, this.index);
+  RockerTile(this.width, this.height, this.index, this.shouldRenderImage);
 
   @override
   _RockerTileState createState() => _RockerTileState();
@@ -28,14 +29,17 @@ class _RockerTileState extends State<RockerTile> {
     return Container(
       width: widget.width,
       height: widget.height,
-      decoration: BoxDecoration(
-        border: Border.all(
-          width: 1,
-          color: Colors.black,
-        ),
-      ),
+      // decoration:BoxDecoration(
+      //   border: Border.all(
+      //     width: 1,
+      //     color: Colors.black,
+      //   ),
+      // ),
       child: Center(
         child: TextFormField(
+          decoration: InputDecoration(
+            border: InputBorder.none,
+          ),
           initialValue: rockersData[widget.index],
           textAlign: TextAlign.center,
           textAlignVertical: TextAlignVertical.center,
