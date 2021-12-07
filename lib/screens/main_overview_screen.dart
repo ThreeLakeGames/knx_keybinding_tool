@@ -133,32 +133,6 @@ class _MainOverviewScreenState extends State<MainOverviewScreen> {
         child: Row(
           children: [
             Icon(
-              Icons.delete,
-              color: Colors.black87,
-            ),
-            Text(" Bereich löschen"),
-            // Text(" delete sub-area"),
-          ],
-        ),
-        value: "delete",
-      ),
-      PopupMenuItem<String>(
-        child: Row(
-          children: [
-            Icon(
-              Icons.add,
-              color: Colors.black87,
-            ),
-            Text(" Bereich hinzufügen"),
-            // Text(" add new sub-area"),
-          ],
-        ),
-        value: "addSubArea",
-      ),
-      PopupMenuItem<String>(
-        child: Row(
-          children: [
-            Icon(
               Icons.print,
               color: Colors.black87,
             ),
@@ -193,6 +167,32 @@ class _MainOverviewScreenState extends State<MainOverviewScreen> {
           ],
         ),
         value: "load",
+      ),
+      PopupMenuItem<String>(
+        child: Row(
+          children: [
+            Icon(
+              Icons.delete,
+              color: Colors.black87,
+            ),
+            Text(" Bereich löschen"),
+            // Text(" delete sub-area"),
+          ],
+        ),
+        value: "delete",
+      ),
+      PopupMenuItem<String>(
+        child: Row(
+          children: [
+            Icon(
+              Icons.add,
+              color: Colors.black87,
+            ),
+            Text(" Bereich hinzufügen"),
+            // Text(" add new sub-area"),
+          ],
+        ),
+        value: "addSubArea",
       ),
     ];
   }

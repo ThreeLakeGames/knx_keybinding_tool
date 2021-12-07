@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:knx_keybinding_tool/provider/main_area_data.dart';
-import 'package:knx_keybinding_tool/provider/switch_combination_item_data.dart';
 import 'package:provider/provider.dart';
 
 class ProjectSettingsScreen extends StatefulWidget {
@@ -13,15 +12,22 @@ class ProjectSettingsScreen extends StatefulWidget {
 class _ProjectSettingsScreenState extends State<ProjectSettingsScreen> {
   List<DropdownMenuItem> brandItems = [
     DropdownMenuItem(
-      child: Text("default", style: TextStyle(fontSize: 24)),
+      child: Text("default", style: TextStyle(fontSize: 20)),
       value: "default",
     ),
     DropdownMenuItem(
       child: Text(
         "Berker",
-        style: TextStyle(fontSize: 24),
+        style: TextStyle(fontSize: 20),
       ),
-      value: "berker",
+      value: "Berker",
+    ),
+    DropdownMenuItem(
+      child: Text(
+        "Gira",
+        style: TextStyle(fontSize: 20),
+      ),
+      value: "Gira",
     ),
   ];
 
@@ -55,92 +61,30 @@ class _ProjectSettingsScreenState extends State<ProjectSettingsScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              decoration: BoxDecoration(
-                  color: Theme.of(context).accentColor,
-                  border: Border.all(
-                      color: Theme.of(context).primaryColor, width: 3),
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    topRight: Radius.circular(10),
-                  )),
-              child: Row(
-                children: [
-                  Text(
-                    " Projekt-Einstellungen  ",
-                    // " Project - Settings  ",
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline5
-                        .copyWith(color: Colors.white),
-                  ),
-                  Icon(
-                    Icons.settings,
-                    color: Colors.white,
-                  ),
-                ],
-              ),
-            ),
+            _buildSettingsBar(),
             LayoutBuilder(
               builder: (ctx, constraints) {
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: 10,
-                      ),
-                      // Divider(),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Projekt Titel:    ",
-                            // "project title:    ",
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline5
-                                .copyWith(fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Container(
-                            // width: constraints.maxWidth * 0.3,
-                            child: _buildTitle(mainAreaData),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Divider(),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "Schaltertyp/Marke:    ",
-                        // "project title:    ",
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline5
-                            .copyWith(fontWeight: FontWeight.bold),
-                      ),
-                      DropdownButton(
-                        items: brandItems,
-                        value: "default",
-                        onChanged: (value) => value,
-                      ),
-                      Switch(
-                          value: mainAreaData.shouldRenderImages,
-                          onChanged: (value) {
-                            setState(() {
-                              mainAreaData.setSwitchImages(value);
-                            });
-                          }),
-                      Divider(),
-                    ],
+                return SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 10),
+
+                        //Edit Project Title
+                        _buildProjectTitle(mainAreaData),
+
+                        SizedBox(height: 10),
+                        Divider(),
+                        SizedBox(height: 10),
+
+                        //Edit Switch Type/Brand
+                        _buildSwitchBrandSelector(mainAreaData),
+
+                        Divider(),
+                      ],
+                    ),
                   ),
                 );
               },
@@ -151,7 +95,55 @@ class _ProjectSettingsScreenState extends State<ProjectSettingsScreen> {
     );
   }
 
-  Widget _buildTitle(MainAreaData mainAreaData) {
+  Widget _buildSettingsBar() {
+    return Container(
+      decoration: BoxDecoration(
+          color: Theme.of(context).accentColor,
+          border: Border.all(color: Theme.of(context).primaryColor, width: 3),
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(10),
+            topRight: Radius.circular(10),
+          )),
+      child: Row(
+        children: [
+          Text(
+            " Projekt-Einstellungen  ",
+            // " Project - Settings  ",
+            style: Theme.of(context)
+                .textTheme
+                .headline5
+                .copyWith(color: Colors.white),
+          ),
+          Icon(
+            Icons.settings,
+            color: Colors.white,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildProjectTitle(MainAreaData mainAreaData) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Projekt Titel:    ",
+          // "project title:    ",
+          style: Theme.of(context)
+              .textTheme
+              .headline5
+              .copyWith(fontWeight: FontWeight.bold),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        _buildTitleTextField(mainAreaData),
+      ],
+    );
+  }
+
+  Widget _buildTitleTextField(MainAreaData mainAreaData) {
     return Focus(
       autofocus: false,
       onFocusChange: (isFocused) {
@@ -199,6 +191,29 @@ class _ProjectSettingsScreenState extends State<ProjectSettingsScreen> {
                 ),
               ],
             ),
+    );
+  }
+
+  Widget _buildSwitchBrandSelector(MainAreaData mainAreaData) {
+    return Column(
+      children: [
+        Text(
+          "Schaltertyp/Marke:    ",
+          style: Theme.of(context)
+              .textTheme
+              .headline5
+              .copyWith(fontWeight: FontWeight.bold),
+        ),
+        DropdownButton(
+          items: brandItems,
+          value: mainAreaData.currentSwitchBrand,
+          onChanged: (switchBrand) {
+            setState(() {
+              mainAreaData.setSwitchBrand(switchBrand);
+            });
+          },
+        ),
+      ],
     );
   }
 }

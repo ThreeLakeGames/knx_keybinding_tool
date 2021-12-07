@@ -17,4 +17,10 @@ class SwitchCombinationItemData with ChangeNotifier {
       "switch_data": switchData,
     };
   }
+
+  void updateSwitchItems(String currentBrand) {
+    switchList.forEach((switchItem) {
+      switchItem.updateSwitchType(currentBrand);
+    });
+  }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:knx_keybinding_tool/provider/main_area_data.dart';
 import 'package:provider/provider.dart';
-import 'package:vector_math/vector_math.dart';
 
 import 'package:knx_keybinding_tool/provider/switch_combination_item_data.dart';
 import 'package:knx_keybinding_tool/provider/switch_item_data.dart';
@@ -107,7 +106,7 @@ class _NewSwitchState extends State<NewSwitch> {
 
     //update the switchType (imageData+dimensions) for each switch
     newSwitchCombinationData.switchList.forEach((switchData) {
-      switchData.updateSwitchType();
+      switchData.updateSwitchType("Berker");
     });
 
     //add the combination to the main area

@@ -20,7 +20,7 @@ class _SwitchCombinationState extends State<SwitchCombination> {
       child: Row(
         children: [
           Icon(Icons.settings),
-          Text("  edit"),
+          Text("  bearbeiten"),
         ],
       ),
       value: "edit",
@@ -29,7 +29,7 @@ class _SwitchCombinationState extends State<SwitchCombination> {
       child: Row(
         children: [
           Icon(Icons.delete),
-          Text(" delete"),
+          Text(" löschen"),
         ],
       ),
       value: "delete",

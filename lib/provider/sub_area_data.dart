@@ -26,7 +26,7 @@ class SubAreaData with ChangeNotifier {
     notifyListeners();
   }
 
-  void updateSubArea() {
+  void clearThenStoreSubArea() {
     deleteSubArea().then((value) => storeSubArea());
   }
 
@@ -62,7 +62,7 @@ class SubAreaData with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> loadCurrentSubArea() async {
+  Future<void> loadCurrentSubArea(String currentSwitchBrand) async {
     final url = Uri.parse(
         "https://knx-switchplanningtool-default-rtdb.europe-west1.firebasedatabase.app/$title.json");
     final response = await http.get(url);
@@ -83,7 +83,7 @@ class SubAreaData with ChangeNotifier {
                   (switchItemMap["rowCount"] as int).toDouble(),
                 ),
                 switchItemMap["switchType"]);
-            newSwitchItem.updateSwitchType();
+            newSwitchItem.updateSwitchType(currentSwitchBrand);
             newSwitchItemList.add(newSwitchItem);
           },
         );
@@ -93,6 +93,12 @@ class SubAreaData with ChangeNotifier {
         notifyListeners();
       },
     );
+  }
+
+  void updateSwitchCombinations(String currentBrand) {
+    switchCombinationList.forEach((switchCombination) {
+      switchCombination.updateSwitchItems(currentBrand);
+    });
   }
 
   List<List<SwitchCombinationItemData>> getSwitchCombinationPdfExport(

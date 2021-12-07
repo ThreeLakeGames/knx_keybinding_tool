@@ -14,6 +14,7 @@ class MainAreaData with ChangeNotifier {
 
   int currentSubAreaIndex = 0;
   bool shouldRenderImages = true;
+  String currentSwitchBrand = "Gira";
 
   MainAreaData(this.projectName);
 
@@ -56,7 +57,7 @@ class MainAreaData with ChangeNotifier {
 
   void storeAllSubAreas() {
     subAreas.forEach((subArea) async {
-      subArea.updateSubArea();
+      subArea.clearThenStoreSubArea();
     });
   }
 
@@ -67,7 +68,6 @@ class MainAreaData with ChangeNotifier {
     final loadedSubArea = json.decode(response.body) as Map<String, dynamic>;
     print(loadedSubArea.keys.toList().length);
     loadedSubArea.keys.forEach((subAreaTitle) {
-      print("load key: $subAreaTitle");
       loadSubArea(subAreaTitle);
     });
   }
@@ -81,7 +81,7 @@ class MainAreaData with ChangeNotifier {
       (subArea) {
         if (subArea.title == title) {
           subArea.projectTitle = projectName;
-          subArea.loadCurrentSubArea();
+          subArea.loadCurrentSubArea(currentSwitchBrand);
           isTitleExisting = true;
         }
       },
@@ -94,13 +94,23 @@ class MainAreaData with ChangeNotifier {
     // otherwise create new subArea and add it to subArea List
     final newSubArea =
         SubAreaData(title, subAreas.length, DateTime.now().toString(), []);
-    newSubArea.loadCurrentSubArea();
+    newSubArea.loadCurrentSubArea(currentSwitchBrand);
     addNewSubArea(newSubArea);
     notifyListeners();
   }
 
-  void setSwitchImages(bool shouldRenderImg) {
-    shouldRenderImages = shouldRenderImg;
+  void updateSwitchBrand(String currentBrand) {
+    subAreas.forEach((subArea) {
+      subArea.updateSwitchCombinations(currentBrand);
+    });
+  }
+
+  void setSwitchBrand(String switchBrand) {
+    shouldRenderImages = switchBrand != "default";
+    currentSwitchBrand = switchBrand;
+    updateSwitchBrand(switchBrand);
+
+    print(currentSwitchBrand);
     notifyListeners();
   }
 }
