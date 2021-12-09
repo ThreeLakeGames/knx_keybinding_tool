@@ -58,7 +58,6 @@ class SubAreaData with ChangeNotifier {
 
   void deleteSwitchCombination(SwitchCombinationItemData switchCombination) {
     switchCombinationList.remove(switchCombination);
-
     notifyListeners();
   }
 

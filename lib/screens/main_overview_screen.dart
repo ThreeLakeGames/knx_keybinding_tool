@@ -143,6 +143,7 @@ class _MainOverviewScreenState extends State<MainOverviewScreen> {
         value: "export",
       ),
       PopupMenuItem<String>(
+        enabled: false,
         child: Row(
           children: [
             Icon(

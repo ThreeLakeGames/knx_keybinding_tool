@@ -10,6 +10,7 @@ class SwitchItemData with ChangeNotifier {
     "2 Tasten-übereinander (1x2)": Vector2(1, 2),
     "2 Tasten-nebeneinander(2x1)": Vector2(2, 2),
     "Einzeltaste (1x1)": Vector2(1, 2),
+    "Bewgungsmelder": Vector2(1, 2),
     // "six rockers (2x3)": Vector2(2, 3),
     // "four rockers (2x2)": Vector2(2, 2),
     // "two rockers vertical (1x2)": Vector2(1, 2),
@@ -61,6 +62,10 @@ class SwitchItemData with ChangeNotifier {
       case "Einzeltaste (1x1)":
         rockerDimension = Vector2(1, 2);
         imageUrl = "assets/switchImages/$currentBrand/1-Wippe.jpg";
+        break;
+      case "Bewgungsmelder":
+        rockerDimension = Vector2(1, 2);
+        imageUrl = "assets/switchImages/$currentBrand/BWM.jpg";
         break;
     }
   }

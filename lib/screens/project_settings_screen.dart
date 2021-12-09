@@ -29,6 +29,13 @@ class _ProjectSettingsScreenState extends State<ProjectSettingsScreen> {
       ),
       value: "Gira",
     ),
+    DropdownMenuItem(
+      child: Text(
+        "MDT",
+        style: TextStyle(fontSize: 20),
+      ),
+      value: "MDT",
+    ),
   ];
 
   bool _isTitleEditing = false;

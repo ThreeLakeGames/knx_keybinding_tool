@@ -106,7 +106,8 @@ class _NewSwitchState extends State<NewSwitch> {
 
     //update the switchType (imageData+dimensions) for each switch
     newSwitchCombinationData.switchList.forEach((switchData) {
-      switchData.updateSwitchType("Berker");
+      switchData.updateSwitchType(
+          Provider.of<MainAreaData>(context, listen: false).currentSwitchBrand);
     });
 
     //add the combination to the main area

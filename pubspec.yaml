@@ -54,11 +54,20 @@ flutter:
     - assets/switchImages/Berker/2-Wippen_H.jpg
     - assets/switchImages/Berker/2-Wippen_V.jpg
     - assets/switchImages/Berker/3-Wippen.jpg
+    - assets/switchImages/Berker/BWM.jpg
 
     - assets/switchImages/Gira/1-Wippe.jpg
     - assets/switchImages/Gira/2-Wippen_H.jpg
     - assets/switchImages/Gira/2-Wippen_V.jpg
     - assets/switchImages/Gira/3-Wippen.jpg
+    - assets/switchImages/Gira/BWM.jpg
+
+    - assets/switchImages/MDT/1-Wippe.jpg
+    - assets/switchImages/MDT/2-Wippen_H.jpg
+    - assets/switchImages/MDT/2-Wippen_V.jpg
+    - assets/switchImages/MDT/3-Wippen.jpg
+    - assets/switchImages/MDT/4-Wippen.jpg
+    - assets/switchImages/MDT/BWM.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

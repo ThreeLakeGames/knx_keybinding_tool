@@ -14,7 +14,7 @@ class MainAreaData with ChangeNotifier {
 
   int currentSubAreaIndex = 0;
   bool shouldRenderImages = true;
-  String currentSwitchBrand = "Gira";
+  String currentSwitchBrand = "Berker";
 
   MainAreaData(this.projectName);
 
