@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:knx_keybinding_tool/provider/demo_data.dart';
 import 'package:knx_keybinding_tool/provider/main_area_data.dart';
 import 'package:knx_keybinding_tool/provider/sub_area_data.dart';
 import 'package:provider/provider.dart';
 
 class NewSubArea extends StatefulWidget {
   @override
-  _NewSubAreaState createState() => _NewSubAreaState();
+  _NewSubAreaState createState() => _NewSubAreaState(editSubArea);
+
+  final bool editSubArea;
+
+  NewSubArea({this.editSubArea = false});
 }
 
 class _NewSubAreaState extends State<NewSubArea> {
+  final bool isEditingSubArea;
+  _NewSubAreaState(this.isEditingSubArea);
   final _form = GlobalKey<FormState>();
   SubAreaData newSubArea = SubAreaData(
     "",
@@ -49,14 +54,16 @@ class _NewSubAreaState extends State<NewSubArea> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  "Neuen Bereich hinzufügen",
-                  // "add new sub-area",
-                  style: TextStyle(
-                      // fontWeight: FontWeight.bold,
-                      // fontSize: 18,
+                isEditingSubArea
+                    ? Text("Bereich umbenennen")
+                    : Text(
+                        "Neuen Bereich hinzufügen",
+                        // "add new sub-area",
+                        style: TextStyle(
+                            // fontWeight: FontWeight.bold,
+                            // fontSize: 18,
+                            ),
                       ),
-                ),
                 SizedBox(
                   height: 20,
                 ),
@@ -80,7 +87,9 @@ class _NewSubAreaState extends State<NewSubArea> {
                 ),
                 ElevatedButton(
                   onPressed: _submitData,
-                  child: Text("Neuen Bereich hinzufügen"),
+                  child: isEditingSubArea
+                      ? Text("Bereich umbenennen")
+                      : Text("Neuen Bereich hinzufügen"),
                   // child: Text("Add new area"),
                 )
               ],

@@ -38,9 +38,14 @@ class _MainOverviewScreenState extends State<MainOverviewScreen> {
                     },
                     itemBuilder: (ctx) => appBarItems(context))
               ],
-              title: Text(mainAreaData.projectName +
-                  " - " +
-                  mainAreaData.currentSubArea.title),
+              title: Row(
+                children: [
+                  Text(mainAreaData.projectName +
+                      " - " +
+                      mainAreaData.currentSubArea.title),
+                  IconButton(onPressed: () {}, icon: Icon(Icons.edit))
+                ],
+              ),
             ),
             floatingActionButton: FloatingActionButton(
               child: Icon(Icons.add),
@@ -143,7 +148,7 @@ class _MainOverviewScreenState extends State<MainOverviewScreen> {
         value: "export",
       ),
       PopupMenuItem<String>(
-        enabled: false,
+        enabled: true,
         child: Row(
           children: [
             Icon(
@@ -181,6 +186,19 @@ class _MainOverviewScreenState extends State<MainOverviewScreen> {
           ],
         ),
         value: "delete",
+      ),
+      PopupMenuItem<String>(
+        child: Row(
+          children: [
+            Icon(
+              Icons.edit,
+              color: Colors.black87,
+            ),
+            Text(" Bereich umbenennen"),
+            // Text(" add new sub-area"),
+          ],
+        ),
+        value: "editSubArea",
       ),
       PopupMenuItem<String>(
         child: Row(

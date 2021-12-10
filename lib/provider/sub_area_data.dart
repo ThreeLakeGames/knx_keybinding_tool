@@ -43,7 +43,9 @@ class SubAreaData with ChangeNotifier {
     //create Map of all switchcombinations
     //key = name
     var switchCombinationMap = Map.fromIterable(switchCombinationList,
-        key: (switchCombItem) => switchCombItem.title,
+        key: (switchCombItem) {
+          return switchCombItem.title;
+        },
         value: (switchCombItem) => switchCombItem.getSwitchCombinationTree());
     final url = Uri.parse(
         "https://knx-switchplanningtool-default-rtdb.europe-west1.firebasedatabase.app/$title.json");
@@ -89,7 +91,7 @@ class SubAreaData with ChangeNotifier {
           },
         );
         SwitchCombinationItemData newSwitchComb =
-            SwitchCombinationItemData(title, newSwitchItemList);
+            SwitchCombinationItemData(value["title"], newSwitchItemList);
         addSwitchCombination(newSwitchComb);
         notifyListeners();
       },

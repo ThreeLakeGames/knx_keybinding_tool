@@ -6,11 +6,8 @@ class MainDrawer extends StatelessWidget {
   final Function addNewArea;
 
   MainDrawer(this.addNewArea);
-  Widget buildListTile(
-    String title,
-    IconData icon,
-    Function tapHandler,
-  ) {
+  Widget buildListTile(String title, IconData icon, Function tapHandler,
+      {bool isEditable = true}) {
     return ListTile(
       leading: Icon(icon),
       title: Text(
@@ -21,6 +18,9 @@ class MainDrawer extends StatelessWidget {
           fontWeight: FontWeight.bold,
         ),
       ),
+      trailing: isEditable
+          ? IconButton(onPressed: () {}, icon: Icon(Icons.edit))
+          : null,
       onTap: tapHandler,
     );
   }
@@ -71,6 +71,7 @@ class MainDrawer extends StatelessWidget {
             Navigator.of(context).pop();
             addNewArea(context);
           },
+          isEditable: false,
         ),
         Divider(),
       ],
