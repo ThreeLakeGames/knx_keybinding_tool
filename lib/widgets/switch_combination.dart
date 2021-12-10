@@ -77,6 +77,7 @@ class _SwitchCombinationState extends State<SwitchCombination> {
       (switchItemData) {
         switchItemList.add(
           ChangeNotifierProvider.value(
+            key: UniqueKey(),
             value: switchItemData,
             child: Column(
               children: [
