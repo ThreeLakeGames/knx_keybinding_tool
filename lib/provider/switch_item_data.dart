@@ -11,6 +11,8 @@ class SwitchItemData with ChangeNotifier {
     "2 Tasten-nebeneinander(2x1)": Vector2(2, 2),
     "Einzeltaste (1x1)": Vector2(1, 2),
     "Bewgungsmelder": Vector2(1, 2),
+
+    //english-translation:
     // "six rockers (2x3)": Vector2(2, 3),
     // "four rockers (2x2)": Vector2(2, 2),
     // "two rockers vertical (1x2)": Vector2(1, 2),

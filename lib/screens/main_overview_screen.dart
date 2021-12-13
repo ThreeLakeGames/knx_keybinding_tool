@@ -38,14 +38,9 @@ class _MainOverviewScreenState extends State<MainOverviewScreen> {
                     },
                     itemBuilder: (ctx) => appBarItems(context))
               ],
-              title: Row(
-                children: [
-                  Text(mainAreaData.projectName +
-                      " - " +
-                      mainAreaData.currentSubArea.title),
-                  IconButton(onPressed: () {}, icon: Icon(Icons.edit))
-                ],
-              ),
+              title: Text(mainAreaData.projectName +
+                  " - " +
+                  mainAreaData.currentSubArea.title),
             ),
             floatingActionButton: FloatingActionButton(
               child: Icon(Icons.add),
@@ -83,6 +78,8 @@ class _MainOverviewScreenState extends State<MainOverviewScreen> {
   void _handlePopUpMenuButton(BuildContext ctx, String value) {
     if (value == "addSubArea") {
       _startAddNewArea(ctx);
+    } else if (value == "editSubArea") {
+      _startEditArea(ctx);
     } else if (value == "delete") {
       Provider.of<MainAreaData>(ctx, listen: false).deleteCurrentSubArea();
     } else if (value == "export") {
@@ -117,6 +114,17 @@ class _MainOverviewScreenState extends State<MainOverviewScreen> {
         return NewSubArea();
       },
     );
+  }
+
+  void _startEditArea(BuildContext ctx) {
+    showModalBottomSheet(
+      context: ctx,
+      builder: (bCtx) {
+        return NewSubArea(
+          editSubArea: true,
+        );
+      },
+    ).then(onGoBack);
   }
 
   List<PopupMenuItem> appBarItems(BuildContext context) {

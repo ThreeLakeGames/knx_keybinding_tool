@@ -19,7 +19,7 @@ class MainDrawer extends StatelessWidget {
         ),
       ),
       trailing: isEditable
-          ? IconButton(onPressed: () {}, icon: Icon(Icons.edit))
+          ? IconButton(onPressed: () {}, icon: Icon(Icons.more_vert))
           : null,
       onTap: tapHandler,
     );

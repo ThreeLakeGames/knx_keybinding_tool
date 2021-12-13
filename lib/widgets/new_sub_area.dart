@@ -21,8 +21,6 @@ class _NewSubAreaState extends State<NewSubArea> {
     0,
     DateTime.now().toString(),
     [],
-    // use DemoData for initalized demo SwitchList
-    // DemoData().testSwitchArea,
   );
 
   void _submitData() {
@@ -31,10 +29,17 @@ class _NewSubAreaState extends State<NewSubArea> {
     if (!_isValid) {
       return;
     }
-    newSubArea.index =
-        Provider.of<MainAreaData>(context, listen: false).subAreas.length;
+    if (isEditingSubArea) {
+      Provider.of<MainAreaData>(context, listen: false)
+          .currentSubArea
+          .setTitle(newSubArea.title);
+    } else {
+      newSubArea.index =
+          Provider.of<MainAreaData>(context, listen: false).subAreas.length;
 
-    Provider.of<MainAreaData>(context, listen: false).addNewSubArea(newSubArea);
+      Provider.of<MainAreaData>(context, listen: false)
+          .addNewSubArea(newSubArea);
+    }
     Navigator.of(context).pop();
   }
 
@@ -68,6 +73,11 @@ class _NewSubAreaState extends State<NewSubArea> {
                   height: 20,
                 ),
                 TextFormField(
+                  initialValue: isEditingSubArea
+                      ? Provider.of<MainAreaData>(context, listen: false)
+                          .currentSubArea
+                          .title
+                      : "",
                   autofocus: true,
                   decoration: InputDecoration(
                       labelText: "Titel", hintText: "z.B. Erdgeschoss"),

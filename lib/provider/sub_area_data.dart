@@ -104,6 +104,11 @@ class SubAreaData with ChangeNotifier {
     });
   }
 
+  void setTitle(String newTitle) {
+    this.title = newTitle;
+    notifyListeners();
+  }
+
   List<List<SwitchCombinationItemData>> getSwitchCombinationPdfExport(
       bool landscape) {
     List<List<SwitchCombinationItemData>> pdfExportList = [];
