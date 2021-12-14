@@ -8,20 +8,20 @@ class NewSubArea extends StatefulWidget {
   _NewSubAreaState createState() => _NewSubAreaState(editSubArea);
 
   final bool editSubArea;
+  final SubAreaData editedSubAreaData;
 
-  NewSubArea({this.editSubArea = false});
+  NewSubArea({
+    this.editSubArea = false,
+    this.editedSubAreaData,
+  });
 }
 
 class _NewSubAreaState extends State<NewSubArea> {
   final bool isEditingSubArea;
-  _NewSubAreaState(this.isEditingSubArea);
   final _form = GlobalKey<FormState>();
-  SubAreaData newSubArea = SubAreaData(
-    "",
-    0,
-    DateTime.now().toString(),
-    [],
-  );
+  SubAreaData newSubArea = SubAreaData("", 0, DateTime.now().toString(), []);
+
+  _NewSubAreaState(this.isEditingSubArea);
 
   void _submitData() {
     final _isValid = _form.currentState.validate();
@@ -30,9 +30,7 @@ class _NewSubAreaState extends State<NewSubArea> {
       return;
     }
     if (isEditingSubArea) {
-      Provider.of<MainAreaData>(context, listen: false)
-          .currentSubArea
-          .setTitle(newSubArea.title);
+      widget.editedSubAreaData.setTitle(newSubArea.title);
     } else {
       newSubArea.index =
           Provider.of<MainAreaData>(context, listen: false).subAreas.length;
@@ -60,31 +58,30 @@ class _NewSubAreaState extends State<NewSubArea> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 isEditingSubArea
-                    ? Text("Bereich umbenennen")
+                    ? Text(
+                        "Bereich umbenennen",
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      )
                     : Text(
                         "Neuen Bereich hinzufügen",
-                        // "add new sub-area",
                         style: TextStyle(
-                            // fontWeight: FontWeight.bold,
-                            // fontSize: 18,
-                            ),
+                          fontSize: 16,
+                        ),
                       ),
                 SizedBox(
                   height: 20,
                 ),
                 TextFormField(
-                  initialValue: isEditingSubArea
-                      ? Provider.of<MainAreaData>(context, listen: false)
-                          .currentSubArea
-                          .title
-                      : "",
+                  initialValue:
+                      isEditingSubArea ? widget.editedSubAreaData.title : "",
                   autofocus: true,
                   decoration: InputDecoration(
                       labelText: "Titel", hintText: "z.B. Erdgeschoss"),
                   validator: (value) {
                     if (value.isEmpty) {
                       return "Bitte gültigen Titel eingeben";
-                      // return "Plese Enter valid Title";
                     }
                     return null;
                   },
@@ -100,7 +97,6 @@ class _NewSubAreaState extends State<NewSubArea> {
                   child: isEditingSubArea
                       ? Text("Bereich umbenennen")
                       : Text("Neuen Bereich hinzufügen"),
-                  // child: Text("Add new area"),
                 )
               ],
             ),

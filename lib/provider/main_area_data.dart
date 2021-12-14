@@ -46,6 +46,8 @@ class MainAreaData with ChangeNotifier {
 
   void deleteSubArea(SubAreaData subAreaData) {
     subAreas.remove(subAreaData);
+    updateIndexOrder();
+    currentSubAreaIndex = currentSubAreaIndex.clamp(0, subAreas.length);
     notifyListeners();
   }
 

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:knx_keybinding_tool/provider/main_area_data.dart';
+import 'package:knx_keybinding_tool/provider/sub_area_data.dart';
 import 'package:knx_keybinding_tool/screens/default_screen.dart';
 import 'package:knx_keybinding_tool/screens/pdf_preview_screen.dart';
 import 'package:knx_keybinding_tool/screens/project_settings_screen.dart';
@@ -48,7 +49,10 @@ class _MainOverviewScreenState extends State<MainOverviewScreen> {
                 _startAddNewSwitch(context);
               },
             ),
-            drawer: MainDrawer(_startAddNewArea),
+            drawer: MainDrawer(
+              _startAddNewArea,
+              editSubArea: _startEditArea,
+            ),
             body: Container(
               width: double.infinity,
               height: double.infinity,
@@ -79,7 +83,8 @@ class _MainOverviewScreenState extends State<MainOverviewScreen> {
     if (value == "addSubArea") {
       _startAddNewArea(ctx);
     } else if (value == "editSubArea") {
-      _startEditArea(ctx);
+      _startEditArea(
+          ctx, Provider.of<MainAreaData>(ctx, listen: false).currentSubArea);
     } else if (value == "delete") {
       Provider.of<MainAreaData>(ctx, listen: false).deleteCurrentSubArea();
     } else if (value == "export") {
@@ -116,12 +121,13 @@ class _MainOverviewScreenState extends State<MainOverviewScreen> {
     );
   }
 
-  void _startEditArea(BuildContext ctx) {
+  void _startEditArea(BuildContext ctx, SubAreaData subArea) {
     showModalBottomSheet(
       context: ctx,
       builder: (bCtx) {
         return NewSubArea(
           editSubArea: true,
+          editedSubAreaData: subArea,
         );
       },
     ).then(onGoBack);
