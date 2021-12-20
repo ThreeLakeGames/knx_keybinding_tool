@@ -45,7 +45,9 @@ class DefaultScreen extends StatelessWidget {
     } else if (value == "project-settings") {
       Navigator.of(ctx).pushNamed(ProjectSettingsScreen.routeName);
     } else if (value == "load") {
-      Provider.of<MainAreaData>(ctx, listen: false).loadSubAreas();
+      Provider.of<MainAreaData>(ctx, listen: false)
+          .loadSubAreas()
+          .then((value) => print("ended loading subarea ${DateTime.now()}"));
     }
   }
 
@@ -58,7 +60,8 @@ class DefaultScreen extends StatelessWidget {
               Icons.settings,
               color: Colors.black87,
             ),
-            Text("  project settings"),
+            Text("  Projekteinstellungen"),
+            // Text("  project settings"),
           ],
         ),
         value: "project-settings",
@@ -70,7 +73,8 @@ class DefaultScreen extends StatelessWidget {
               Icons.add,
               color: Colors.black87,
             ),
-            Text(" add new sub-area"),
+            Text(" Bereich hinzufügen"),
+            // Text(" add new sub-area"),
           ],
         ),
         value: "addSubArea",
@@ -82,7 +86,8 @@ class DefaultScreen extends StatelessWidget {
               Icons.download,
               color: Colors.black87,
             ),
-            Text(" load project"),
+            Text(" Projekt laden"),
+            // Text(" load project"),
           ],
         ),
         value: "load",

@@ -26,18 +26,9 @@ class SubAreaData with ChangeNotifier {
     notifyListeners();
   }
 
-  void clearThenStoreSubArea() {
-    deleteSubArea().then((value) => storeSubArea());
-  }
-
-  Future<void> deleteSubArea() async {
-    final url = Uri.parse(
-        "https://knx-switchplanningtool-default-rtdb.europe-west1.firebasedatabase.app/$title.json");
-    await http.delete(url).catchError((error) {
-      print(error.toString());
-      throw error;
-    });
-  }
+  // void clearThenStoreSubArea() {
+  //   storeSubArea();
+  // }
 
   Future<void> storeSubArea() async {
     //create Map of all switchcombinations
@@ -47,19 +38,23 @@ class SubAreaData with ChangeNotifier {
           return switchCombItem.title;
         },
         value: (switchCombItem) => switchCombItem.getSwitchCombinationTree());
-    final url = Uri.parse(
-        "https://knx-switchplanningtool-default-rtdb.europe-west1.firebasedatabase.app/$title.json");
 
-    await http
-        .post(url, body: json.encode(switchCombinationMap))
-        .catchError((error) {
+    Map<String, dynamic> subAreaMap = {
+      "areaTitle": title,
+      "switchData": switchCombinationMap,
+    };
+    final url = Uri.parse(
+        "https://knx-switchplanningtool-default-rtdb.europe-west1.firebasedatabase.app/.json");
+
+    final response =
+        await http.post(url, body: json.encode(subAreaMap)).catchError((error) {
       print(error.toString());
       throw error;
     });
+    id = json.decode(response.body)["name"];
   }
 
   void deleteSwitchCombination(SwitchCombinationItemData switchCombination) {
-    print(switchCombination.switchList[0].rockerData);
     switchCombinationList.remove(switchCombination);
 
     notifyListeners();
@@ -67,10 +62,11 @@ class SubAreaData with ChangeNotifier {
 
   Future<void> loadCurrentSubArea(String currentSwitchBrand) async {
     final url = Uri.parse(
-        "https://knx-switchplanningtool-default-rtdb.europe-west1.firebasedatabase.app/$title.json");
+        "https://knx-switchplanningtool-default-rtdb.europe-west1.firebasedatabase.app/$id.json");
     final response = await http.get(url);
     final loadedSubArea = json.decode(response.body) as Map<String, dynamic>;
-    final switchData = loadedSubArea.values.first;
+    final switchData = loadedSubArea["switchData"];
+    title = loadedSubArea["areaTitle"];
     switchData.forEach(
       (title, value) {
         List<SwitchItemData> newSwitchItemList = [];

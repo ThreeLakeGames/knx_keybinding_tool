@@ -53,14 +53,16 @@ class _MainOverviewScreenState extends State<MainOverviewScreen> {
               _startAddNewArea,
               editSubArea: _startEditArea,
             ),
-            body: Container(
-              width: double.infinity,
-              height: double.infinity,
-              child: IndexedStack(
-                children: _buildSubAreaItems(context),
-                index: mainAreaData.currentSubAreaIndex,
-              ),
-            ),
+            body: mainAreaData.isLoading
+                ? Center(child: CircularProgressIndicator())
+                : Container(
+                    width: double.infinity,
+                    height: double.infinity,
+                    child: IndexedStack(
+                      children: _buildSubAreaItems(context),
+                      index: mainAreaData.currentSubAreaIndex,
+                    ),
+                  ),
           );
   }
 
@@ -94,9 +96,11 @@ class _MainOverviewScreenState extends State<MainOverviewScreen> {
           .pushNamed(ProjectSettingsScreen.routeName)
           .then(onGoBack);
     } else if (value == "save") {
-      Provider.of<MainAreaData>(context, listen: false).storeAllSubAreas();
+      Provider.of<MainAreaData>(context, listen: false).storeProject();
     } else if (value == "load") {
-      Provider.of<MainAreaData>(context, listen: false).loadSubAreas();
+      Provider.of<MainAreaData>(context, listen: false)
+          .loadSubAreas()
+          .then(onGoBack);
       // Provider.of<MainAreaData>(context, listen: false)
       //     .currentSubArea
       //     .loadCurrentSubArea();

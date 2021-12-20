@@ -8,18 +8,17 @@ import '../provider/sub_area_data.dart';
 class MainAreaData with ChangeNotifier {
   String projectName;
   List<SubAreaData> subAreas = [
-    SubAreaData("Erdgeschoss", 0, DateTime.now().toString(), []),
-    SubAreaData("Obergeschoss", 1, DateTime.now().toString(), []),
+    // SubAreaData("Erdgeschoss", 0, DateTime.now().toString(), []),
   ];
 
   int currentSubAreaIndex = 0;
   bool shouldRenderImages = true;
+  bool isLoading = false;
   String currentSwitchBrand = "Berker";
 
   MainAreaData(this.projectName);
 
   SubAreaData get currentSubArea {
-    // notifyListeners();
     return subAreas[currentSubAreaIndex];
   }
 
@@ -47,7 +46,9 @@ class MainAreaData with ChangeNotifier {
   void deleteSubArea(SubAreaData subAreaData) {
     subAreas.remove(subAreaData);
     updateIndexOrder();
-    currentSubAreaIndex = currentSubAreaIndex.clamp(0, subAreas.length);
+    if (currentSubAreaIndex == subAreas.length) {
+      currentSubAreaIndex -= 1;
+    }
     notifyListeners();
   }
 
@@ -57,46 +58,69 @@ class MainAreaData with ChangeNotifier {
     }
   }
 
+  void storeProject() {
+    deleteProjectSaveState().then((_) => storeAllSubAreas());
+  }
+
   void storeAllSubAreas() {
     subAreas.forEach((subArea) async {
-      subArea.clearThenStoreSubArea();
+      subArea.storeSubArea();
+    });
+  }
+
+  Future<void> deleteProjectSaveState() async {
+    final url = Uri.parse(
+        "https://knx-switchplanningtool-default-rtdb.europe-west1.firebasedatabase.app/.json");
+    await http.delete(url).catchError((error) {
+      print(error.toString());
+      throw error;
     });
   }
 
   Future<void> loadSubAreas() async {
+    isLoading = true;
+    print("start loading ${DateTime.now()}");
     final url = Uri.parse(
         "https://knx-switchplanningtool-default-rtdb.europe-west1.firebasedatabase.app/.json");
     final response = await http.get(url);
     final loadedSubArea = json.decode(response.body) as Map<String, dynamic>;
-    print(loadedSubArea.keys.toList().length);
-    loadedSubArea.keys.forEach((subAreaTitle) {
-      loadSubArea(subAreaTitle);
+
+    //show loading spinner for 800ms
+    Future.delayed(Duration(milliseconds: 800)).then((value) {
+      isLoading = false;
+      notifyListeners();
+    });
+
+    loadedSubArea.keys.forEach((subAreaID) async {
+      await loadSubArea(subAreaID);
     });
   }
 
-  void loadSubArea(String title) {
+  Future<void> loadSubArea(subAreaID) async {
     bool isTitleExisting = false;
 
     // check if sub area already exists in project (currently by title)
     // if sub-area exists --> just load data in sub_area class
     subAreas.forEach(
       (subArea) {
-        if (subArea.title == title) {
-          subArea.projectTitle = projectName;
-          subArea.loadCurrentSubArea(currentSwitchBrand);
+        if (subArea.id == subAreaID) {
+          print("project exists");
           isTitleExisting = true;
+          return;
         }
       },
     );
+
     // exit function if subArea already exists
     if (isTitleExisting) {
       notifyListeners();
       return;
     }
     // otherwise create new subArea and add it to subArea List
-    final newSubArea =
-        SubAreaData(title, subAreas.length, DateTime.now().toString(), []);
-    newSubArea.loadCurrentSubArea(currentSwitchBrand);
+    final newSubArea = SubAreaData("", subAreas.length, subAreaID, []);
+    await newSubArea.loadCurrentSubArea(currentSwitchBrand).then((_) {
+      notifyListeners();
+    });
     addNewSubArea(newSubArea);
     notifyListeners();
   }
@@ -111,8 +135,6 @@ class MainAreaData with ChangeNotifier {
     shouldRenderImages = switchBrand != "default";
     currentSwitchBrand = switchBrand;
     updateSwitchBrand(switchBrand);
-
-    print(currentSwitchBrand);
     notifyListeners();
   }
 }
