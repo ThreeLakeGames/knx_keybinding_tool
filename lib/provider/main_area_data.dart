@@ -31,6 +31,7 @@ class MainAreaData with ChangeNotifier {
   }
 
   void setOverviewAreaIndex(int index) {
+    subAreas[index].isCurrentSubArea = true;
     currentSubAreaIndex = index;
     notifyListeners();
   }
@@ -55,6 +56,7 @@ class MainAreaData with ChangeNotifier {
 
   void updateIndexOrder() {
     for (int i = 0; i < subAreas.length; i++) {
+      if (subAreas[i].isCurrentSubArea) currentSubAreaIndex = i;
       subAreas[i].index = i;
     }
   }
@@ -100,7 +102,7 @@ class MainAreaData with ChangeNotifier {
   Future<void> loadSubArea(subAreaID) async {
     bool isTitleExisting = false;
 
-    // check if sub area already exists in project (currently by title)
+    // check if sub area already exists in project (using the ID)
     // if sub-area exists --> just load data in sub_area class
     subAreas.forEach(
       (subArea) {
@@ -144,23 +146,20 @@ class MainAreaData with ChangeNotifier {
     if (newIndex > oldIndex) {
       newIndex -= 1;
     }
+
+    //keep the right "currentSubAreaIndex"
+    resetSubAreasIsCurrentState();
+    currentSubArea.isCurrentSubArea = true;
     final movedSubArea = subAreas.removeAt(oldIndex);
     subAreas.insert(newIndex, movedSubArea);
 
-    // print("oldIndex: $oldIndex  newIndex:  $newIndex");
-    //
-    // print("-oldIndex: $oldIndex  -newIndex:  $newIndex");
-    // subAreas[oldIndex].index = newIndex;
-    // subAreas[newIndex].index = oldIndex;
-    // subAreas.forEach((element) {
-    //   print("unsorted ${element.index}");
-    // });
-
-    // subAreas.sort((a, b) => a.index.compareTo(b.index));
-    // subAreas.forEach((element) {
-    //   print("sorted ${element.index}");
-    // });
     updateIndexOrder();
     notifyListeners();
+  }
+
+  void resetSubAreasIsCurrentState() {
+    subAreas.forEach((subArea) {
+      subArea.isCurrentSubArea = false;
+    });
   }
 }

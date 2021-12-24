@@ -6,7 +6,7 @@ class SwitchCombinationItemData with ChangeNotifier {
   String title;
   List<SwitchItemData> switchList = [];
 
-  SwitchCombinationItemData(this.title, this.switchList);
+  SwitchCombinationItemData(this.title, this.switchList, {this.id});
 
   // this function is used for saving the switches to webserver
   Map<String, dynamic> getSwitchCombinationTree() {
@@ -15,6 +15,7 @@ class SwitchCombinationItemData with ChangeNotifier {
     return {
       "title": this.title,
       "switch_data": switchData,
+      "id": id,
     };
   }
 

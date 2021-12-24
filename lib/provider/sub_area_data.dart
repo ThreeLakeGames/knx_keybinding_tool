@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 import 'package:knx_keybinding_tool/provider/switch_item_data.dart';
 import 'package:vector_math/vector_math.dart';
 
-import '../provider/demo_data.dart';
 import '../provider/switch_combination_item_data.dart';
 
 class SubAreaData with ChangeNotifier {
@@ -14,7 +13,8 @@ class SubAreaData with ChangeNotifier {
   String title;
   int index;
 
-  DemoData demoData = DemoData();
+  bool isCurrentSubArea = false;
+
   List<SwitchCombinationItemData> switchCombinationList = [];
 
   SubAreaData(this.title, this.index, this.id, this.switchCombinationList,
@@ -22,20 +22,17 @@ class SubAreaData with ChangeNotifier {
   // SubAreaData.fromWebServer(this.title, this.index, this.id, this.switchCombinationList);
 
   void addSwitchCombination(SwitchCombinationItemData newSwitchCombination) {
+    // newSwitchCombination.id = DateTime.now().toString();
     switchCombinationList.add(newSwitchCombination);
     notifyListeners();
   }
-
-  // void clearThenStoreSubArea() {
-  //   storeSubArea();
-  // }
 
   Future<void> storeSubArea() async {
     //create Map of all switchcombinations
     //key = name
     var switchCombinationMap = Map.fromIterable(switchCombinationList,
         key: (switchCombItem) {
-          return switchCombItem.title;
+          return switchCombItem.id;
         },
         value: (switchCombItem) => switchCombItem.getSwitchCombinationTree());
 
@@ -86,8 +83,9 @@ class SubAreaData with ChangeNotifier {
             newSwitchItemList.add(newSwitchItem);
           },
         );
-        SwitchCombinationItemData newSwitchComb =
-            SwitchCombinationItemData(value["title"], newSwitchItemList);
+        SwitchCombinationItemData newSwitchComb = SwitchCombinationItemData(
+            value["title"], newSwitchItemList,
+            id: value["id"]);
         addSwitchCombination(newSwitchComb);
         notifyListeners();
       },

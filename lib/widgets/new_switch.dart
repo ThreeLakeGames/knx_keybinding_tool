@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import 'package:knx_keybinding_tool/provider/switch_combination_item_data.dart';
 import 'package:knx_keybinding_tool/provider/switch_item_data.dart';
+import 'package:uuid/uuid.dart';
 
 class NewSwitch extends StatefulWidget {
   @override
@@ -14,11 +15,18 @@ class _NewSwitchState extends State<NewSwitch> {
   static const MAX_COMBINATION_LENGTH = 4;
   final _form = GlobalKey<FormState>();
   int _selectedCombinationLength = 1;
+  Uuid uuid;
   var newSwitchCombinationData = SwitchCombinationItemData(
     "",
     List<SwitchItemData>.generate(
         MAX_COMBINATION_LENGTH, (index) => SwitchItemData()),
   );
+
+  @override
+  void initState() {
+    uuid = Uuid();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -100,6 +108,9 @@ class _NewSwitchState extends State<NewSwitch> {
     if (!_isValid) {
       return;
     }
+
+    newSwitchCombinationData.id = uuid.v4();
+
     // trim the switchList to the chosen number of switches
     newSwitchCombinationData.switchList = newSwitchCombinationData.switchList
         .sublist(0, _selectedCombinationLength);

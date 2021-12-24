@@ -60,7 +60,7 @@ class DefaultScreen extends StatelessWidget {
               Icons.settings,
               color: Colors.black87,
             ),
-            Text("  Projekteinstellungen"),
+            Text("  Projekt-Einstellungen"),
             // Text("  project settings"),
           ],
         ),
