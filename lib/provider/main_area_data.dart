@@ -23,7 +23,8 @@ class MainAreaData with ChangeNotifier {
   }
 
   void addNewSubArea(SubAreaData newSubArea) {
-    currentSubAreaIndex = subAreas.length;
+    // currentSubAreaIndex = subAreas.length;
+    newSubArea.index = subAreas.length;
     newSubArea.projectTitle = projectName;
     subAreas.add(newSubArea);
     notifyListeners();
@@ -120,6 +121,7 @@ class MainAreaData with ChangeNotifier {
     final newSubArea = SubAreaData("", subAreas.length, subAreaID, []);
     await newSubArea.loadCurrentSubArea(currentSwitchBrand).then((_) {
       notifyListeners();
+      print(newSubArea.index);
     });
     addNewSubArea(newSubArea);
     notifyListeners();
@@ -135,6 +137,30 @@ class MainAreaData with ChangeNotifier {
     shouldRenderImages = switchBrand != "default";
     currentSwitchBrand = switchBrand;
     updateSwitchBrand(switchBrand);
+    notifyListeners();
+  }
+
+  void updateSubAreaListView(int oldIndex, int newIndex) {
+    if (newIndex > oldIndex) {
+      newIndex -= 1;
+    }
+    final movedSubArea = subAreas.removeAt(oldIndex);
+    subAreas.insert(newIndex, movedSubArea);
+
+    // print("oldIndex: $oldIndex  newIndex:  $newIndex");
+    //
+    // print("-oldIndex: $oldIndex  -newIndex:  $newIndex");
+    // subAreas[oldIndex].index = newIndex;
+    // subAreas[newIndex].index = oldIndex;
+    // subAreas.forEach((element) {
+    //   print("unsorted ${element.index}");
+    // });
+
+    // subAreas.sort((a, b) => a.index.compareTo(b.index));
+    // subAreas.forEach((element) {
+    //   print("sorted ${element.index}");
+    // });
+    updateIndexOrder();
     notifyListeners();
   }
 }

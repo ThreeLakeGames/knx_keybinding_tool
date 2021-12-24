@@ -32,11 +32,10 @@ class _NewSubAreaState extends State<NewSubArea> {
     if (isEditingSubArea) {
       widget.editedSubAreaData.setTitle(newSubArea.title);
     } else {
-      newSubArea.index =
-          Provider.of<MainAreaData>(context, listen: false).subAreas.length;
-
-      Provider.of<MainAreaData>(context, listen: false)
-          .addNewSubArea(newSubArea);
+      final mainAreaData = Provider.of<MainAreaData>(context, listen: false);
+      newSubArea.index = mainAreaData.subAreas.length;
+      mainAreaData.currentSubAreaIndex = mainAreaData.subAreas.length;
+      mainAreaData.addNewSubArea(newSubArea);
     }
     Navigator.of(context).pop();
   }
