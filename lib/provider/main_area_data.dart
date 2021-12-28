@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import '../provider/sub_area_data.dart';
 
 class MainAreaData with ChangeNotifier {
+  String projectID;
   String projectName;
   List<SubAreaData> subAreas = [
     // SubAreaData("Erdgeschoss", 0, DateTime.now().toString(), []),

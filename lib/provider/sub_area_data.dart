@@ -22,7 +22,6 @@ class SubAreaData with ChangeNotifier {
   // SubAreaData.fromWebServer(this.title, this.index, this.id, this.switchCombinationList);
 
   void addSwitchCombination(SwitchCombinationItemData newSwitchCombination) {
-    // newSwitchCombination.id = DateTime.now().toString();
     switchCombinationList.add(newSwitchCombination);
     notifyListeners();
   }
