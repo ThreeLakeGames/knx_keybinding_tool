@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:knx_keybinding_tool/provider/main_area_data.dart';
+import 'package:knx_keybinding_tool/provider/projects_overview_data.dart';
 import 'package:knx_keybinding_tool/provider/sub_area_data.dart';
 import 'package:knx_keybinding_tool/screens/default_screen.dart';
 import 'package:knx_keybinding_tool/screens/pdf_preview_screen.dart';
@@ -13,6 +14,7 @@ import 'package:knx_keybinding_tool/widgets/sub_area_overview.dart';
 import 'package:provider/provider.dart';
 
 class MainOverviewScreen extends StatefulWidget {
+  static const routeName = "/project-screen";
   @override
   _MainOverviewScreenState createState() => _MainOverviewScreenState();
 }
@@ -29,7 +31,7 @@ class _MainOverviewScreenState extends State<MainOverviewScreen> {
     final mainAreaData = Provider.of<MainAreaData>(context);
 
     return mainAreaData.subAreas.isEmpty
-        ? DefaultScreen(_startAddNewArea)
+        ? DefaultProjectScreen(_startAddNewArea)
         : Scaffold(
             appBar: AppBar(
               actions: [
@@ -37,7 +39,11 @@ class _MainOverviewScreenState extends State<MainOverviewScreen> {
                     onSelected: (value) {
                       _handlePopUpMenuButton(context, value);
                     },
-                    itemBuilder: (ctx) => appBarItems(context))
+                    itemBuilder: (ctx) => appBarItems(context)),
+                IconButton(
+                  onPressed: closeProject,
+                  icon: Icon(Icons.exit_to_app),
+                ),
               ],
               title: Text(mainAreaData.projectName +
                   " - " +
@@ -68,6 +74,7 @@ class _MainOverviewScreenState extends State<MainOverviewScreen> {
 
   List<Widget> _buildSubAreaItems(BuildContext context) {
     List<Widget> subAreaItems = [];
+
     Provider.of<MainAreaData>(context).subAreas.forEach(
       (subArea) {
         subAreaItems.add(
@@ -96,15 +103,21 @@ class _MainOverviewScreenState extends State<MainOverviewScreen> {
           .pushNamed(ProjectSettingsScreen.routeName)
           .then(onGoBack);
     } else if (value == "save") {
-      Provider.of<MainAreaData>(context, listen: false).storeProject();
+      storeProject(ctx);
     } else if (value == "load") {
-      Provider.of<MainAreaData>(context, listen: false)
-          .loadSubAreas()
-          .then(onGoBack);
+      // Provider.of<MainAreaData>(context, listen: false)
+      //     .loadSubAreas(null)
+      //     .then(onGoBack);
       // Provider.of<MainAreaData>(context, listen: false)
       //     .currentSubArea
       //     .loadCurrentSubArea();
     }
+  }
+
+  void storeProject(BuildContext ctx) {
+    Provider.of<MainAreaData>(context, listen: false)
+        .storeProjectData()
+        .then((_) {});
   }
 
   void _startAddNewSwitch(BuildContext ctx) {
@@ -135,6 +148,14 @@ class _MainOverviewScreenState extends State<MainOverviewScreen> {
         );
       },
     ).then(onGoBack);
+  }
+
+  void closeProject() {
+    Provider.of<ProjectsOverviewData>(context, listen: false)
+        .loadProjects()
+        .then((_) {
+      Navigator.of(context).pop();
+    });
   }
 
   List<PopupMenuItem> appBarItems(BuildContext context) {

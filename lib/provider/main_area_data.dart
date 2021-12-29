@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import '../provider/sub_area_data.dart';
 
 class MainAreaData with ChangeNotifier {
-  String projectID;
+  String projectID = "default";
   String projectName;
   List<SubAreaData> subAreas = [
     // SubAreaData("Erdgeschoss", 0, DateTime.now().toString(), []),
@@ -66,6 +66,39 @@ class MainAreaData with ChangeNotifier {
     deleteProjectSaveState().then((_) => storeAllSubAreas());
   }
 
+  Future<void> storeProjectData() async {
+    await deleteProjectSaveState().then((_) => storeProjectInDB());
+  }
+
+  List<Map<String, dynamic>> get subAreasSavingData {
+    List<Map<String, dynamic>> subAreasSavingData = [];
+    subAreas.forEach((subArea) {
+      // print(subArea.subAreaSaveStateData);
+      subAreasSavingData.add(subArea.subAreaSaveStateData);
+    });
+    return subAreasSavingData;
+  }
+
+  void storeProjectInDB() async {
+    print("store: $projectID");
+    Map<String, dynamic> projectData = {
+      "projectTitle": projectName,
+      "projectID": projectID,
+      "subAreasData": subAreasSavingData,
+    };
+
+    final url = Uri.parse(
+        "https://knx-switchplanningtool-default-rtdb.europe-west1.firebasedatabase.app/.json");
+    final response = await http
+        .post(url, body: json.encode(projectData))
+        .catchError((error) {
+      print(error.toString());
+      throw error;
+    });
+
+    projectID = jsonDecode(response.body)["name"];
+  }
+
   void storeAllSubAreas() {
     subAreas.forEach((subArea) async {
       subArea.storeSubArea();
@@ -74,20 +107,24 @@ class MainAreaData with ChangeNotifier {
 
   Future<void> deleteProjectSaveState() async {
     final url = Uri.parse(
-        "https://knx-switchplanningtool-default-rtdb.europe-west1.firebasedatabase.app/.json");
+        "https://knx-switchplanningtool-default-rtdb.europe-west1.firebasedatabase.app/$projectID.json");
     await http.delete(url).catchError((error) {
       print(error.toString());
       throw error;
     });
   }
 
-  Future<void> loadSubAreas() async {
+  Future<void> loadProject(String projectId) async {
+    print("loading Project: $projectId");
+    projectID = projectId;
     isLoading = true;
-    print("start loading ${DateTime.now()}");
     final url = Uri.parse(
-        "https://knx-switchplanningtool-default-rtdb.europe-west1.firebasedatabase.app/.json");
+        "https://knx-switchplanningtool-default-rtdb.europe-west1.firebasedatabase.app/$projectId.json");
     final response = await http.get(url);
-    final loadedSubArea = json.decode(response.body) as Map<String, dynamic>;
+    final loadedProjectData =
+        json.decode(response.body) as Map<String, dynamic>;
+    final loadedSubAreas = loadedProjectData["subAreasData"];
+    // print("loaded ProjectData: $loadedSubAreas");
 
     //show loading spinner for 800ms
     Future.delayed(Duration(milliseconds: 800)).then((value) {
@@ -95,12 +132,13 @@ class MainAreaData with ChangeNotifier {
       notifyListeners();
     });
 
-    loadedSubArea.keys.forEach((subAreaID) async {
-      await loadSubArea(subAreaID);
+    loadedSubAreas.forEach((loadedSubArea) async {
+      await loadSubArea("", loadedSubArea);
     });
   }
 
-  Future<void> loadSubArea(subAreaID) async {
+  Future<void> loadSubArea(
+      subAreaID, Map<String, dynamic> loadedSubArea) async {
     bool isTitleExisting = false;
 
     // check if sub area already exists in project (using the ID)
@@ -122,7 +160,11 @@ class MainAreaData with ChangeNotifier {
     }
     // otherwise create new subArea and add it to subArea List
     final newSubArea = SubAreaData("", subAreas.length, subAreaID, []);
-    await newSubArea.loadCurrentSubArea(currentSwitchBrand).then((_) {
+    await newSubArea
+        .loadCurrentSubArea(
+            loadedSubarea: loadedSubArea,
+            currentSwitchBrand: currentSwitchBrand)
+        .then((_) {
       notifyListeners();
       print(newSubArea.index);
     });
