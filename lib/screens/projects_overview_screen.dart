@@ -16,17 +16,6 @@ class _ProjectsOverviewScreenState extends State<ProjectsOverviewScreen> {
   bool isLoading = true;
 
   @override
-  void didChangeDependencies() {
-    print("changed Dependencies");
-    super.didChangeDependencies();
-  }
-
-  FutureOr onGoBack(dynamic value) {
-    print("ON GO BACK   ProjectOverviewScreen");
-    setState(() {});
-  }
-
-  @override
   void initState() {
     Provider.of<ProjectsOverviewData>(context, listen: false)
         .loadProjects()

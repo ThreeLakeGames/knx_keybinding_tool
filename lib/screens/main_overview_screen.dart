@@ -104,20 +104,11 @@ class _MainOverviewScreenState extends State<MainOverviewScreen> {
           .then(onGoBack);
     } else if (value == "save") {
       storeProject(ctx);
-    } else if (value == "load") {
-      // Provider.of<MainAreaData>(context, listen: false)
-      //     .loadSubAreas(null)
-      //     .then(onGoBack);
-      // Provider.of<MainAreaData>(context, listen: false)
-      //     .currentSubArea
-      //     .loadCurrentSubArea();
-    }
+    } else if (value == "load") {}
   }
 
   void storeProject(BuildContext ctx) {
-    Provider.of<MainAreaData>(context, listen: false)
-        .storeProjectData()
-        .then((_) {});
+    Provider.of<MainAreaData>(context, listen: false).storeProjectData();
   }
 
   void _startAddNewSwitch(BuildContext ctx) {

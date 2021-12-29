@@ -6,9 +6,8 @@ import 'package:provider/provider.dart';
 class ProjectsOverviewListItem extends StatelessWidget {
   final String projectID;
   final String projectTitle;
-  final Function onGoBack;
 
-  ProjectsOverviewListItem({this.projectID, this.projectTitle, this.onGoBack});
+  ProjectsOverviewListItem({this.projectID, this.projectTitle});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +27,6 @@ class ProjectsOverviewListItem extends StatelessWidget {
     Provider.of<MainAreaData>(ctx, listen: false)
         .loadProject(projectID)
         .then((_) {
-      print("then...");
       Navigator.of(ctx).pushNamed(MainOverviewScreen.routeName);
     });
   }

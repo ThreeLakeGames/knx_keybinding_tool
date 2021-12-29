@@ -41,49 +41,23 @@ class SubAreaData with ChangeNotifier {
     return subAreaMap;
   }
 
-  Future<void> storeSubArea() async {
-    //create Map of all switchcombinations
-    //key = name
-    var switchCombinationMap = Map.fromIterable(switchCombinationList,
-        key: (switchCombItem) {
-          return switchCombItem.id;
-        },
-        value: (switchCombItem) => switchCombItem.getSwitchCombinationTree());
-
-    Map<String, dynamic> subAreaMap = {
-      "areaTitle": title,
-      "switchData": switchCombinationMap,
-    };
-    final url = Uri.parse(
-        "https://knx-switchplanningtool-default-rtdb.europe-west1.firebasedatabase.app/.json");
-
-    final response =
-        await http.post(url, body: json.encode(subAreaMap)).catchError((error) {
-      print(error.toString());
-      throw error;
-    });
-    id = json.decode(response.body)["name"];
-  }
-
   void deleteSwitchCombination(SwitchCombinationItemData switchCombination) {
     switchCombinationList.remove(switchCombination);
 
     notifyListeners();
   }
 
-  Future<void> loadCurrentSubArea(
-      {Map<String, dynamic> loadedSubarea, String currentSwitchBrand}) async {
-    // final url = Uri.parse(
-    //     "https://knx-switchplanningtool-default-rtdb.europe-west1.firebasedatabase.app/$id.json");
-    // final response = await http.get(url);
-    // final loadedSubArea = json.decode(response.body) as Map<String, dynamic>;
+  Future<void> loadCurrentSubArea({
+    Map<String, dynamic> loadedSubarea,
+    String currentSwitchBrand,
+  }) async {
     final switchData = loadedSubarea["switchData"];
     title = loadedSubarea["areaTitle"];
     switchData.forEach(
       (title, value) {
         List<SwitchItemData> newSwitchItemList = [];
         List<dynamic> switchData = value["switch_data"];
-        print("switch Data: $switchData");
+
         switchData.forEach(
           (switchItemMap) {
             List<dynamic> rawRockerData = switchItemMap["rockerData"];

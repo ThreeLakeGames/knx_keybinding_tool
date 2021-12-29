@@ -13,6 +13,7 @@ class MainAreaData with ChangeNotifier {
   ];
 
   int currentSubAreaIndex = 0;
+  bool isStoredInDB = false;
   bool shouldRenderImages = true;
   bool isLoading = false;
   String currentSwitchBrand = "Berker";
@@ -62,30 +63,39 @@ class MainAreaData with ChangeNotifier {
     }
   }
 
-  void storeProject() {
-    deleteProjectSaveState().then((_) => storeAllSubAreas());
-  }
-
   Future<void> storeProjectData() async {
-    await deleteProjectSaveState().then((_) => storeProjectInDB());
-  }
-
-  List<Map<String, dynamic>> get subAreasSavingData {
-    List<Map<String, dynamic>> subAreasSavingData = [];
-    subAreas.forEach((subArea) {
-      // print(subArea.subAreaSaveStateData);
-      subAreasSavingData.add(subArea.subAreaSaveStateData);
-    });
-    return subAreasSavingData;
-  }
-
-  void storeProjectInDB() async {
-    print("store: $projectID");
     Map<String, dynamic> projectData = {
       "projectTitle": projectName,
       "projectID": projectID,
       "subAreasData": subAreasSavingData,
     };
+    if (isStoredInDB) {
+      patchProjectInDB(projectData);
+    } else {
+      storeNewProjectInDB(projectData);
+    }
+  }
+
+  List<Map<String, dynamic>> get subAreasSavingData {
+    List<Map<String, dynamic>> subAreasSavingData = [];
+    subAreas.forEach((subArea) {
+      subAreasSavingData.add(subArea.subAreaSaveStateData);
+    });
+    return subAreasSavingData;
+  }
+
+  void patchProjectInDB(Map<String, dynamic> projectData) async {
+    print("patch: $projectID");
+    final url = Uri.parse(
+        "https://knx-switchplanningtool-default-rtdb.europe-west1.firebasedatabase.app/$projectID.json");
+    await http.patch(url, body: json.encode(projectData)).catchError((error) {
+      print(error.toString());
+      throw error;
+    });
+  }
+
+  void storeNewProjectInDB(Map<String, dynamic> projectData) async {
+    print("store: $projectID");
 
     final url = Uri.parse(
         "https://knx-switchplanningtool-default-rtdb.europe-west1.firebasedatabase.app/.json");
@@ -97,12 +107,7 @@ class MainAreaData with ChangeNotifier {
     });
 
     projectID = jsonDecode(response.body)["name"];
-  }
-
-  void storeAllSubAreas() {
-    subAreas.forEach((subArea) async {
-      subArea.storeSubArea();
-    });
+    isStoredInDB = true;
   }
 
   Future<void> deleteProjectSaveState() async {
@@ -115,16 +120,17 @@ class MainAreaData with ChangeNotifier {
   }
 
   Future<void> loadProject(String projectId) async {
-    print("loading Project: $projectId");
+    currentSubAreaIndex = 0;
+    subAreas.clear();
     projectID = projectId;
     isLoading = true;
+    isStoredInDB = true;
     final url = Uri.parse(
         "https://knx-switchplanningtool-default-rtdb.europe-west1.firebasedatabase.app/$projectId.json");
     final response = await http.get(url);
     final loadedProjectData =
         json.decode(response.body) as Map<String, dynamic>;
     final loadedSubAreas = loadedProjectData["subAreasData"];
-    // print("loaded ProjectData: $loadedSubAreas");
 
     //show loading spinner for 800ms
     Future.delayed(Duration(milliseconds: 800)).then((value) {
@@ -133,33 +139,14 @@ class MainAreaData with ChangeNotifier {
     });
 
     loadedSubAreas.forEach((loadedSubArea) async {
-      await loadSubArea("", loadedSubArea);
+      await loadSubArea(loadedSubArea);
     });
   }
 
-  Future<void> loadSubArea(
-      subAreaID, Map<String, dynamic> loadedSubArea) async {
-    bool isTitleExisting = false;
+  Future<void> loadSubArea(Map<String, dynamic> loadedSubArea) async {
+    // create new subArea and add it to subArea List
+    final newSubArea = SubAreaData("", subAreas.length, "id", []);
 
-    // check if sub area already exists in project (using the ID)
-    // if sub-area exists --> just load data in sub_area class
-    subAreas.forEach(
-      (subArea) {
-        if (subArea.id == subAreaID) {
-          print("project exists");
-          isTitleExisting = true;
-          return;
-        }
-      },
-    );
-
-    // exit function if subArea already exists
-    if (isTitleExisting) {
-      notifyListeners();
-      return;
-    }
-    // otherwise create new subArea and add it to subArea List
-    final newSubArea = SubAreaData("", subAreas.length, subAreaID, []);
     await newSubArea
         .loadCurrentSubArea(
             loadedSubarea: loadedSubArea,
