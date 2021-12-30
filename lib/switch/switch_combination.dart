@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:knx_keybinding_tool/provider/sub_area_data.dart';
+import 'package:knx_keybinding_tool/subArea/sub_area_data.dart';
 import 'package:knx_keybinding_tool/provider/switch_combination_item_data.dart';
 import 'package:knx_keybinding_tool/provider/switch_item_data.dart';
-import 'package:knx_keybinding_tool/widgets/switch_item.dart';
+import 'package:knx_keybinding_tool/switch/switch_item.dart';
 import 'package:provider/provider.dart';
 
 class SwitchCombination extends StatefulWidget {

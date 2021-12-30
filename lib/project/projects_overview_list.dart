@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:knx_keybinding_tool/provider/projects_overview_data.dart';
-import 'package:knx_keybinding_tool/widgets/projects_overview_list_item.dart';
+import 'package:knx_keybinding_tool/project/projects_overview_data.dart';
+import 'package:knx_keybinding_tool/project/projects_overview_list_item.dart';
 import 'package:provider/provider.dart';
 
 class ProjectsOverviewList extends StatelessWidget {
@@ -11,7 +11,15 @@ class ProjectsOverviewList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      children: _buildOverviewListItems(context),
+      children: [
+        SizedBox(height: 20),
+        Text(
+          "Projekte:",
+          style: Theme.of(context).textTheme.headline4,
+        ),
+        SizedBox(height: 10),
+        ..._buildOverviewListItems(context),
+      ],
     );
   }
 
@@ -22,8 +30,7 @@ class ProjectsOverviewList extends StatelessWidget {
     projectsOverviewData.projects.forEach((projectBasicData) {
       overviewListItems.add(
         ProjectsOverviewListItem(
-          projectID: projectBasicData.projectID,
-          projectTitle: projectBasicData.projectTitle,
+          projectData: projectBasicData,
           openProject: openProject,
         ),
       );

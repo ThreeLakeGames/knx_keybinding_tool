@@ -2,15 +2,15 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:knx_keybinding_tool/provider/main_area_data.dart';
-import 'package:knx_keybinding_tool/provider/projects_overview_data.dart';
-import 'package:knx_keybinding_tool/provider/sub_area_data.dart';
+import 'package:knx_keybinding_tool/project/projects_overview_data.dart';
+import 'package:knx_keybinding_tool/subArea/sub_area_data.dart';
 import 'package:knx_keybinding_tool/screens/default_screen.dart';
 import 'package:knx_keybinding_tool/screens/pdf_preview_screen.dart';
 import 'package:knx_keybinding_tool/screens/project_settings_screen.dart';
 import 'package:knx_keybinding_tool/widgets/main_drawer.dart';
-import 'package:knx_keybinding_tool/widgets/new_sub_area.dart';
-import 'package:knx_keybinding_tool/widgets/new_switch.dart';
-import 'package:knx_keybinding_tool/widgets/sub_area_overview.dart';
+import 'package:knx_keybinding_tool/subArea/new_sub_area.dart';
+import 'package:knx_keybinding_tool/switch/new_switch.dart';
+import 'package:knx_keybinding_tool/subArea/sub_area_overview.dart';
 import 'package:provider/provider.dart';
 
 class MainOverviewScreen extends StatefulWidget {

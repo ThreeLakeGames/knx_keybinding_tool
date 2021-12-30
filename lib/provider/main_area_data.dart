@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import '../provider/sub_area_data.dart';
+import '../subArea/sub_area_data.dart';
 
 class MainAreaData with ChangeNotifier {
   String projectID = "default";
@@ -68,6 +68,7 @@ class MainAreaData with ChangeNotifier {
       "projectTitle": projectName,
       "projectID": projectID,
       "subAreasData": subAreasSavingData,
+      "latestModificationDate": DateTime.now().toIso8601String(),
     };
     if (isStoredInDB) {
       await patchProjectInDB(projectData);

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:knx_keybinding_tool/provider/main_area_data.dart';
 import 'package:knx_keybinding_tool/provider/switch_item_data.dart';
-import 'package:knx_keybinding_tool/widgets/rocker_tile.dart';
+import 'package:knx_keybinding_tool/switch/rocker_tile.dart';
 import 'package:provider/provider.dart';
 
 class SwitchItem extends StatefulWidget {

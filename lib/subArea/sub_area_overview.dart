@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:knx_keybinding_tool/provider/sub_area_data.dart';
+import 'package:knx_keybinding_tool/subArea/sub_area_data.dart';
 import 'package:knx_keybinding_tool/provider/switch_combination_item_data.dart';
-import 'package:knx_keybinding_tool/widgets/new_switch.dart';
-import 'package:knx_keybinding_tool/widgets/switch_combination.dart';
+import 'package:knx_keybinding_tool/switch/new_switch.dart';
+import 'package:knx_keybinding_tool/switch/switch_combination.dart';
 import 'package:provider/provider.dart';
 
 class SubAreaOverview extends StatelessWidget {

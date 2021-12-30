@@ -1,5 +1,5 @@
 import 'package:knx_keybinding_tool/pdf_widgets/pdf_switch_combination.dart';
-import 'package:knx_keybinding_tool/provider/sub_area_data.dart';
+import 'package:knx_keybinding_tool/subArea/sub_area_data.dart';
 import 'package:knx_keybinding_tool/provider/switch_combination_item_data.dart';
 
 import 'package:intl/intl.dart';

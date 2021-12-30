@@ -15,9 +15,13 @@ class ProjectsOverviewData extends ChangeNotifier {
     final loadedProjects = json.decode(response.body) as Map<String, dynamic>;
 
     projects.clear();
-    loadedProjects.forEach((key, value) {
-      final newProjectBasicData =
-          ProjectBasicData(projectTitle: value["projectTitle"], projectID: key);
+    loadedProjects.forEach((key, loadedData) {
+      final newProjectBasicData = ProjectBasicData(
+        projectID: key,
+        projectTitle: loadedData["projectTitle"],
+        latestModificationDate:
+            DateTime.parse(loadedData["latestModificationDate"]),
+      );
       projects.add(newProjectBasicData);
     });
   }
