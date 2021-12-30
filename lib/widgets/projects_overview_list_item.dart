@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:knx_keybinding_tool/provider/main_area_data.dart';
-import 'package:knx_keybinding_tool/screens/main_overview_screen.dart';
-import 'package:provider/provider.dart';
 
 class ProjectsOverviewListItem extends StatelessWidget {
   final String projectID;
   final String projectTitle;
+  final Function openProject;
 
-  ProjectsOverviewListItem({this.projectID, this.projectTitle});
+  ProjectsOverviewListItem(
+      {this.projectID, this.projectTitle, this.openProject});
 
   @override
   Widget build(BuildContext context) {
@@ -21,13 +20,5 @@ class ProjectsOverviewListItem extends StatelessWidget {
         },
       ),
     );
-  }
-
-  void openProject(BuildContext ctx, String projectID) {
-    Provider.of<MainAreaData>(ctx, listen: false)
-        .loadProject(projectID)
-        .then((_) {
-      Navigator.of(ctx).pushNamed(MainOverviewScreen.routeName);
-    });
   }
 }

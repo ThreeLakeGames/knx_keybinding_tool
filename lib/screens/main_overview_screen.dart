@@ -20,9 +20,13 @@ class MainOverviewScreen extends StatefulWidget {
 }
 
 class _MainOverviewScreenState extends State<MainOverviewScreen> {
-  //update Screen after returning from settings-screen
   FutureOr onGoBack(dynamic value) {
-    print("ON GO BACk");
+    setState(() {});
+  }
+
+  //update Screen after returning from settings-screen
+  FutureOr onGoBackSettings(dynamic value) {
+    storeProject();
     setState(() {});
   }
 
@@ -101,13 +105,13 @@ class _MainOverviewScreenState extends State<MainOverviewScreen> {
     } else if (value == "project-settings") {
       Navigator.of(context)
           .pushNamed(ProjectSettingsScreen.routeName)
-          .then(onGoBack);
+          .then(onGoBackSettings);
     } else if (value == "save") {
-      storeProject(ctx);
+      storeProject();
     } else if (value == "load") {}
   }
 
-  void storeProject(BuildContext ctx) {
+  void storeProject() {
     Provider.of<MainAreaData>(context, listen: false).storeProjectData();
   }
 
@@ -142,6 +146,7 @@ class _MainOverviewScreenState extends State<MainOverviewScreen> {
   }
 
   void closeProject() {
+    storeProject();
     Provider.of<ProjectsOverviewData>(context, listen: false)
         .loadProjects()
         .then((_) {

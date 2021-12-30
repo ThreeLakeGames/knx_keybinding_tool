@@ -70,9 +70,9 @@ class MainAreaData with ChangeNotifier {
       "subAreasData": subAreasSavingData,
     };
     if (isStoredInDB) {
-      patchProjectInDB(projectData);
+      await patchProjectInDB(projectData);
     } else {
-      storeNewProjectInDB(projectData);
+      await storeNewProjectInDB(projectData);
     }
   }
 
@@ -84,7 +84,7 @@ class MainAreaData with ChangeNotifier {
     return subAreasSavingData;
   }
 
-  void patchProjectInDB(Map<String, dynamic> projectData) async {
+  Future<void> patchProjectInDB(Map<String, dynamic> projectData) async {
     print("patch: $projectID");
     final url = Uri.parse(
         "https://knx-switchplanningtool-default-rtdb.europe-west1.firebasedatabase.app/$projectID.json");
@@ -94,7 +94,7 @@ class MainAreaData with ChangeNotifier {
     });
   }
 
-  void storeNewProjectInDB(Map<String, dynamic> projectData) async {
+  Future<void> storeNewProjectInDB(Map<String, dynamic> projectData) async {
     print("store: $projectID");
 
     final url = Uri.parse(
@@ -130,13 +130,16 @@ class MainAreaData with ChangeNotifier {
     final response = await http.get(url);
     final loadedProjectData =
         json.decode(response.body) as Map<String, dynamic>;
+
     final loadedSubAreas = loadedProjectData["subAreasData"];
+    projectName = loadedProjectData["projectTitle"];
 
     //show loading spinner for 800ms
     Future.delayed(Duration(milliseconds: 800)).then((value) {
       isLoading = false;
       notifyListeners();
     });
+    if (loadedSubAreas == null) return;
 
     loadedSubAreas.forEach((loadedSubArea) async {
       await loadSubArea(loadedSubArea);

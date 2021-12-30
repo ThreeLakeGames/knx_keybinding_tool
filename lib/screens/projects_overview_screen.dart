@@ -1,7 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:knx_keybinding_tool/provider/main_area_data.dart';
 import 'package:knx_keybinding_tool/provider/projects_overview_data.dart';
+import 'package:knx_keybinding_tool/screens/main_overview_screen.dart';
+import 'package:knx_keybinding_tool/widgets/new_project.dart';
 import 'package:knx_keybinding_tool/widgets/projects_overview_list.dart';
 import 'package:provider/provider.dart';
 
@@ -13,6 +16,11 @@ class ProjectsOverviewScreen extends StatefulWidget {
 }
 
 class _ProjectsOverviewScreenState extends State<ProjectsOverviewScreen> {
+  FutureOr onGoBack(dynamic value) {
+    print("ON GO BACk");
+    setState(() {});
+  }
+
   bool isLoading = true;
 
   @override
@@ -23,9 +31,26 @@ class _ProjectsOverviewScreenState extends State<ProjectsOverviewScreen> {
     super.initState();
   }
 
+  void _startAddNewProject(BuildContext ctx) {
+    showModalBottomSheet(
+      context: ctx,
+      builder: (bCtx) {
+        return NewProject();
+      },
+    ).then(onGoBack);
+  }
+
   void finishedLoading() {
     setState(() {
       isLoading = false;
+    });
+  }
+
+  void openProject(BuildContext ctx, String projectID) {
+    Provider.of<MainAreaData>(ctx, listen: false)
+        .loadProject(projectID)
+        .then((_) {
+      Navigator.of(ctx).pushNamed(MainOverviewScreen.routeName).then(onGoBack);
     });
   }
 
@@ -39,10 +64,14 @@ class _ProjectsOverviewScreenState extends State<ProjectsOverviewScreen> {
           ? Center(
               child: Text("Noch keine Projekte erstellt"),
             )
-          : ProjectsOverviewList(),
+          : ProjectsOverviewList(
+              openProject: openProject,
+            ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: () {},
+        onPressed: () {
+          _startAddNewProject(context);
+        },
       ),
     );
   }

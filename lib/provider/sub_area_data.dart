@@ -1,7 +1,4 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:knx_keybinding_tool/provider/switch_item_data.dart';
 import 'package:vector_math/vector_math.dart';
 
