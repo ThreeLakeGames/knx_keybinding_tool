@@ -38,9 +38,9 @@ class _NewSwitchState extends State<NewSwitch> {
             child: Container(
               width: constraints.maxWidth,
               padding: EdgeInsets.only(
-                top: 10,
-                left: 10,
-                right: 10,
+                top: 20,
+                left: 24,
+                right: 24,
                 bottom: MediaQuery.of(context).viewInsets.bottom + 20,
               ),
               child: Form(

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:knx_keybinding_tool/provider/main_area_data.dart';
 import 'package:knx_keybinding_tool/project/projects_overview_data.dart';
 import 'package:knx_keybinding_tool/subArea/sub_area_data.dart';
-import 'package:knx_keybinding_tool/screens/default_screen.dart';
 import 'package:knx_keybinding_tool/screens/pdf_preview_screen.dart';
 import 'package:knx_keybinding_tool/screens/project_settings_screen.dart';
 import 'package:knx_keybinding_tool/widgets/main_drawer.dart';
@@ -33,47 +32,56 @@ class _MainOverviewScreenState extends State<MainOverviewScreen> {
   @override
   Widget build(BuildContext context) {
     final mainAreaData = Provider.of<MainAreaData>(context);
+    bool isEmpty = mainAreaData.subAreas.isEmpty;
 
-    return mainAreaData.subAreas.isEmpty
-        ? DefaultProjectScreen(_startAddNewArea)
-        : Scaffold(
-            appBar: AppBar(
-              actions: [
-                PopupMenuButton(
-                    onSelected: (value) {
-                      _handlePopUpMenuButton(context, value);
-                    },
-                    itemBuilder: (ctx) => appBarItems(context)),
-                IconButton(
-                  onPressed: closeProject,
-                  icon: Icon(Icons.exit_to_app),
-                ),
-              ],
-              title: Text(mainAreaData.projectName +
-                  " - " +
-                  mainAreaData.currentSubArea.title),
-            ),
-            floatingActionButton: FloatingActionButton(
-              child: Icon(Icons.add),
-              onPressed: () {
-                _startAddNewSwitch(context);
+    return Scaffold(
+      appBar: AppBar(
+        actions: [
+          PopupMenuButton(
+              onSelected: (value) {
+                _handlePopUpMenuButton(context, value);
               },
-            ),
-            drawer: MainDrawer(
-              _startAddNewArea,
-              editSubArea: _startEditArea,
-            ),
-            body: mainAreaData.isLoading
-                ? Center(child: CircularProgressIndicator())
-                : Container(
-                    width: double.infinity,
-                    height: double.infinity,
-                    child: IndexedStack(
-                      children: _buildSubAreaItems(context),
-                      index: mainAreaData.currentSubAreaIndex,
-                    ),
+              itemBuilder: (ctx) => appBarItems(context)),
+          IconButton(
+            onPressed: closeProject,
+            icon: Icon(Icons.exit_to_app),
+          ),
+        ],
+        title: isEmpty
+            ? Text(mainAreaData.projectName)
+            : Text(mainAreaData.projectName +
+                " - " +
+                mainAreaData.currentSubArea.title),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {
+          if (isEmpty) {
+            _startAddNewArea(context);
+          } else {
+            _startAddNewSwitch(context);
+          }
+        },
+      ),
+      drawer: MainDrawer(
+        _startAddNewArea,
+        editSubArea: _startEditArea,
+      ),
+      body: isEmpty
+          ? Center(
+              child: Text("Noch keine Unterbereiche erstellt..."),
+            )
+          : mainAreaData.isLoading
+              ? Center(child: CircularProgressIndicator())
+              : Container(
+                  width: double.infinity,
+                  height: double.infinity,
+                  child: IndexedStack(
+                    children: _buildSubAreaItems(context),
+                    index: mainAreaData.currentSubAreaIndex,
                   ),
-          );
+                ),
+    );
   }
 
   List<Widget> _buildSubAreaItems(BuildContext context) {

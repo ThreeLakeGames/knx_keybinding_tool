@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:knx_keybinding_tool/project/projects_overview_table.dart';
 import 'package:knx_keybinding_tool/provider/main_area_data.dart';
 import 'package:knx_keybinding_tool/project/projects_overview_data.dart';
 import 'package:knx_keybinding_tool/screens/main_overview_screen.dart';
 import 'package:knx_keybinding_tool/project/new_project.dart';
-import 'package:knx_keybinding_tool/project/projects_overview_list.dart';
 import 'package:provider/provider.dart';
 
 class ProjectsOverviewScreen extends StatefulWidget {
@@ -17,7 +17,6 @@ class ProjectsOverviewScreen extends StatefulWidget {
 
 class _ProjectsOverviewScreenState extends State<ProjectsOverviewScreen> {
   FutureOr onGoBack(dynamic value) {
-    print("ON GO BACk");
     setState(() {});
   }
 
@@ -58,15 +57,27 @@ class _ProjectsOverviewScreenState extends State<ProjectsOverviewScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("KNX-Tastenbelegungsplaner"),
+        title: Text("Projekte"),
       ),
       body: isLoading
           ? Center(
               child: Text("Noch keine Projekte erstellt"),
             )
-          : ProjectsOverviewList(
-              openProject: openProject,
+          : Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Text(
+                //   "Projekte",
+                //   style: Theme.of(context).textTheme.headline4,
+                // ),
+                ProjectsOverviewTable(
+                  openProject: openProject,
+                ),
+              ],
             ),
+      // : ProjectsOverviewList(
+      //     openProject: openProject,
+      //   ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {

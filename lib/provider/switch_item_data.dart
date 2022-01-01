@@ -26,7 +26,7 @@ class SwitchItemData with ChangeNotifier {
 
   String switchType = "6 Tasten (2x3)";
   String imageUrl = "assets/switchImages/Berker/3-Wippen.jpg";
-  switchMode switchDesign;
+  // switchMode switchDesign;
   String id;
 
   List<String> rockerData = List<String>.generate(6, (index) => "");

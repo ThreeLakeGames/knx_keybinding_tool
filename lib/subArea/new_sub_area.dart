@@ -47,8 +47,8 @@ class _NewSubAreaState extends State<NewSubArea> {
         child: Container(
           padding: EdgeInsets.only(
             top: 20,
-            left: 20,
-            right: 20,
+            left: 24,
+            right: 24,
             bottom: MediaQuery.of(context).viewInsets.bottom + 50,
           ),
           child: Form(
