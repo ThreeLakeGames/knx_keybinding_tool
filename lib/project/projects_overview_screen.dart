@@ -63,7 +63,7 @@ class _ProjectsOverviewScreenState extends State<ProjectsOverviewScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Projekte"),
+        title: Text("KNX - Projekte"),
       ),
       body: isLoading
           ? Center(

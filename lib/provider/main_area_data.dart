@@ -17,8 +17,9 @@ class MainAreaData with ChangeNotifier {
   bool shouldRenderImages = true;
   bool isLoading = false;
   String currentSwitchBrand = "Berker";
+  DateTime creationDate;
 
-  MainAreaData(this.projectName);
+  MainAreaData(this.projectName, {this.creationDate});
 
   SubAreaData get currentSubArea {
     return subAreas[currentSubAreaIndex];
@@ -73,6 +74,7 @@ class MainAreaData with ChangeNotifier {
       "projectSwitchBrand": currentSwitchBrand,
       "subAreasData": subAreasSavingData,
       "latestModificationDate": DateTime.now().toIso8601String(),
+      "creationDate": creationDate.toIso8601String(),
     };
     if (isStoredInDB) {
       return await patchProjectInDB(projectData);
@@ -146,13 +148,16 @@ class MainAreaData with ChangeNotifier {
     final loadedSubAreas = loadedProjectData["subAreasData"];
     projectName = loadedProjectData["projectTitle"];
     currentSwitchBrand = loadedProjectData["projectSwitchBrand"];
+    creationDate = DateTime.parse(loadedProjectData["creationDate"]);
 
     //show loading spinner for 800ms
     Future.delayed(Duration(milliseconds: 800)).then((value) {
       isLoading = false;
       notifyListeners();
     });
-    if (loadedSubAreas == null) return;
+    if (loadedSubAreas == null) {
+      return;
+    }
 
     loadedSubAreas.forEach((loadedSubArea) async {
       await loadSubArea(loadedSubArea);

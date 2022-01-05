@@ -10,7 +10,7 @@ class NewProject extends StatefulWidget {
 
 class _NewProjectState extends State<NewProject> {
   final _form = GlobalKey<FormState>();
-  MainAreaData newProject = MainAreaData("");
+  MainAreaData newProject = MainAreaData("", creationDate: DateTime.now());
 
   void _submitData() async {
     final _isValid = _form.currentState.validate();

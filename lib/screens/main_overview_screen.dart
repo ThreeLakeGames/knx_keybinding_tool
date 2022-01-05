@@ -25,7 +25,7 @@ class _MainOverviewScreenState extends State<MainOverviewScreen> {
 
   //update Screen after returning from settings-screen
   FutureOr onGoBackSettings(dynamic value) {
-    storeProject();
+    // storeProject();
     setState(() {});
   }
 
@@ -114,13 +114,15 @@ class _MainOverviewScreenState extends State<MainOverviewScreen> {
       Navigator.of(context)
           .pushNamed(ProjectSettingsScreen.routeName)
           .then(onGoBackSettings);
-    } else if (value == "save") {
-      storeProject();
-    } else if (value == "load") {}
+    }
+    // } else if (value == "save") {
+    //   storeProject();
+    // } else if (value == "load") {}
   }
 
-  void storeProject() {
-    Provider.of<MainAreaData>(context, listen: false).storeProjectData();
+  Future<void> storeProject() async {
+    return await Provider.of<MainAreaData>(context, listen: false)
+        .storeProjectData();
   }
 
   void _startAddNewSwitch(BuildContext ctx) {
@@ -154,11 +156,12 @@ class _MainOverviewScreenState extends State<MainOverviewScreen> {
   }
 
   void closeProject() {
-    storeProject();
-    Provider.of<ProjectsOverviewData>(context, listen: false)
-        .loadProjects()
-        .then((_) {
-      Navigator.of(context).pop();
+    storeProject().then((_) {
+      Provider.of<ProjectsOverviewData>(context, listen: false)
+          .loadProjects()
+          .then((_) {
+        Navigator.of(context).pop();
+      });
     });
   }
 
@@ -190,33 +193,33 @@ class _MainOverviewScreenState extends State<MainOverviewScreen> {
         ),
         value: "export",
       ),
-      PopupMenuItem<String>(
-        enabled: true,
-        child: Row(
-          children: [
-            Icon(
-              Icons.save,
-              color: Colors.black87,
-            ),
-            Text(" Projekt speichern"),
-            // Text(" save project"),
-          ],
-        ),
-        value: "save",
-      ),
-      PopupMenuItem<String>(
-        child: Row(
-          children: [
-            Icon(
-              Icons.download,
-              color: Colors.black87,
-            ),
-            Text(" Projekt laden"),
-            // Text(" load project"),
-          ],
-        ),
-        value: "load",
-      ),
+      // PopupMenuItem<String>(
+      //   enabled: true,
+      //   child: Row(
+      //     children: [
+      //       Icon(
+      //         Icons.save,
+      //         color: Colors.black87,
+      //       ),
+      //       Text(" Projekt speichern"),
+      //       // Text(" save project"),
+      //     ],
+      //   ),
+      //   value: "save",
+      // ),
+      // PopupMenuItem<String>(
+      //   child: Row(
+      //     children: [
+      //       Icon(
+      //         Icons.download,
+      //         color: Colors.black87,
+      //       ),
+      //       Text(" Projekt laden"),
+      //       // Text(" load project"),
+      //     ],
+      //   ),
+      //   value: "load",
+      // ),
       PopupMenuItem<String>(
         child: Row(
           children: [

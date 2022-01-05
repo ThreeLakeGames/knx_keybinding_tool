@@ -21,6 +21,7 @@ class ProjectsOverviewData extends ChangeNotifier {
         projectTitle: loadedData["projectTitle"],
         latestModificationDate:
             DateTime.parse(loadedData["latestModificationDate"]),
+        creationDate: DateTime.parse(loadedData["creationDate"]),
         projectSwitchBrand: loadedData["projectSwitchBrand"],
       );
       projects.add(newProjectBasicData);
@@ -32,6 +33,7 @@ class ProjectsOverviewData extends ChangeNotifier {
       projectID: newProject.projectID,
       projectTitle: newProject.projectName,
       projectSwitchBrand: newProject.currentSwitchBrand,
+      creationDate: newProject.creationDate,
       latestModificationDate: DateTime.now(),
     );
     projects.add(newProjectsBasicData);

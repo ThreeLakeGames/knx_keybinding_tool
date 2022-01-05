@@ -54,6 +54,12 @@ class _ProjectsOverviewTableState extends State<ProjectsOverviewTable> {
             style: textStyle,
           )),
       DataColumn(
+          tooltip: "Das Projekt existiert seit",
+          label: Text(
+            "Erstellungsdatum",
+            style: textStyle,
+          )),
+      DataColumn(
           label: Text(
         "Schaltermaterial",
         style: textStyle,
@@ -88,11 +94,32 @@ class _ProjectsOverviewTableState extends State<ProjectsOverviewTable> {
     return <DataCell>[
       DataCell(
         Text(projectBasicData.projectTitle),
+        onDoubleTap: () {
+          widget.openProject(ctx, projectBasicData.projectID);
+        },
       ),
-      DataCell(Text(
-        DateFormat.yMMMd().format(projectBasicData.latestModificationDate),
-      )),
-      DataCell(Text(projectBasicData.projectSwitchBrand)),
+      DataCell(
+        Text(
+          DateFormat.yMMMd().format(projectBasicData.latestModificationDate),
+        ),
+        onDoubleTap: () {
+          widget.openProject(ctx, projectBasicData.projectID);
+        },
+      ),
+      DataCell(
+        Text(
+          DateFormat.yMMMd().format(projectBasicData.creationDate),
+        ),
+        onDoubleTap: () {
+          widget.openProject(ctx, projectBasicData.projectID);
+        },
+      ),
+      DataCell(
+        Text(projectBasicData.projectSwitchBrand),
+        onDoubleTap: () {
+          widget.openProject(ctx, projectBasicData.projectID);
+        },
+      ),
       DataCell(Text("")),
       _buildOpenButtonCell(projectBasicData, ctx),
       DataCell(Text("")),
