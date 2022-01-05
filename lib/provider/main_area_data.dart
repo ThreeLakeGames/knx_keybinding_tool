@@ -63,17 +63,21 @@ class MainAreaData with ChangeNotifier {
     }
   }
 
-  Future<void> storeProjectData() async {
+  // if project is new created --> add new project to DB
+  // if project already exists --> update project in DB
+  // return the project-ID
+  Future<String> storeProjectData() async {
     Map<String, dynamic> projectData = {
       "projectTitle": projectName,
       "projectID": projectID,
+      "projectSwitchBrand": currentSwitchBrand,
       "subAreasData": subAreasSavingData,
       "latestModificationDate": DateTime.now().toIso8601String(),
     };
     if (isStoredInDB) {
-      await patchProjectInDB(projectData);
+      return await patchProjectInDB(projectData);
     } else {
-      await storeNewProjectInDB(projectData);
+      return await storeNewProjectInDB(projectData);
     }
   }
 
@@ -85,17 +89,23 @@ class MainAreaData with ChangeNotifier {
     return subAreasSavingData;
   }
 
-  Future<void> patchProjectInDB(Map<String, dynamic> projectData) async {
+  // update the entire project in DB,  return the project ID
+  Future<String> patchProjectInDB(Map<String, dynamic> projectData) async {
     print("patch: $projectID");
     final url = Uri.parse(
         "https://knx-switchplanningtool-default-rtdb.europe-west1.firebasedatabase.app/$projectID.json");
-    await http.patch(url, body: json.encode(projectData)).catchError((error) {
+    final response = await http
+        .patch(url, body: json.encode(projectData))
+        .catchError((error) {
       print(error.toString());
       throw error;
     });
+    projectID = jsonDecode(response.body)["name"];
+    return projectID;
   }
 
-  Future<void> storeNewProjectInDB(Map<String, dynamic> projectData) async {
+// add the project to DB,  return the project ID
+  Future<String> storeNewProjectInDB(Map<String, dynamic> projectData) async {
     print("store: $projectID");
 
     final url = Uri.parse(
@@ -109,6 +119,7 @@ class MainAreaData with ChangeNotifier {
 
     projectID = jsonDecode(response.body)["name"];
     isStoredInDB = true;
+    return projectID;
   }
 
   Future<void> deleteProjectSaveState() async {
@@ -134,6 +145,7 @@ class MainAreaData with ChangeNotifier {
 
     final loadedSubAreas = loadedProjectData["subAreasData"];
     projectName = loadedProjectData["projectTitle"];
+    currentSwitchBrand = loadedProjectData["projectSwitchBrand"];
 
     //show loading spinner for 800ms
     Future.delayed(Duration(milliseconds: 800)).then((value) {

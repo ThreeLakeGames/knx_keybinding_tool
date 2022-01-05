@@ -53,6 +53,12 @@ class _ProjectsOverviewScreenState extends State<ProjectsOverviewScreen> {
     });
   }
 
+  void deleteProject(BuildContext ctx, String projectID) {
+    Provider.of<ProjectsOverviewData>(ctx, listen: false)
+        .deleteProject(projectID)
+        .then(onGoBack);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,6 +78,7 @@ class _ProjectsOverviewScreenState extends State<ProjectsOverviewScreen> {
                 // ),
                 ProjectsOverviewTable(
                   openProject: openProject,
+                  deleteProject: deleteProject,
                 ),
               ],
             ),

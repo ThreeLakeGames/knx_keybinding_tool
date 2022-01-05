@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math.dart';
 
-enum switchMode { sixButtons, fourButtons, twoButtons, singleRocker }
-
 class SwitchItemData with ChangeNotifier {
   static Map<String, Vector2> switchTypes = {
     "6 Tasten (2x3)": Vector2(2, 3),

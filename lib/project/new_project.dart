@@ -12,15 +12,18 @@ class _NewProjectState extends State<NewProject> {
   final _form = GlobalKey<FormState>();
   MainAreaData newProject = MainAreaData("");
 
-  void _submitData() {
+  void _submitData() async {
     final _isValid = _form.currentState.validate();
     _form.currentState.save();
     if (!_isValid) {
       return;
     }
-    Provider.of<ProjectsOverviewData>(context, listen: false)
-        .addNewProject(newProject);
-    exitNewProjectScreen();
+    await Provider.of<ProjectsOverviewData>(context, listen: false)
+        .addNewProject(newProject)
+        .then((_) {
+      Navigator.of(context).pop();
+    });
+    // exitNewProjectScreen();
   }
 
   void exitNewProjectScreen() {

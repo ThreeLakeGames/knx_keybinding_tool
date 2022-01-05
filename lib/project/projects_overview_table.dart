@@ -4,23 +4,36 @@ import 'package:knx_keybinding_tool/models/project_basic_data.dart';
 import 'package:knx_keybinding_tool/project/projects_overview_data.dart';
 import 'package:provider/provider.dart';
 
-class ProjectsOverviewTable extends StatelessWidget {
+class ProjectsOverviewTable extends StatefulWidget {
   final Function openProject;
+  final Function deleteProject;
 
-  ProjectsOverviewTable({this.openProject});
+  ProjectsOverviewTable({this.openProject, this.deleteProject});
+
+  @override
+  _ProjectsOverviewTableState createState() => _ProjectsOverviewTableState();
+}
+
+class _ProjectsOverviewTableState extends State<ProjectsOverviewTable> {
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Card(
-        margin: EdgeInsets.symmetric(vertical: 24, horizontal: 12),
-        elevation: 3,
-        child: SizedBox(
-          width: double.infinity,
-          child: DataTable(
+    return Card(
+      margin: EdgeInsets.symmetric(vertical: 24, horizontal: 12),
+      elevation: 3,
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: ConstrainedBox(
+            constraints:
+                BoxConstraints(minWidth: MediaQuery.of(context).size.width),
+            // width: MediaQuery.of(context).size.width,
+            child: DataTable(
 
-              // horizontalMargin: 48,
-              columns: _buildOverviewColumns(),
-              rows: _buildOverviewItems(context)),
+                // horizontalMargin: 48,
+                columns: _buildOverviewColumns(),
+                rows: _buildOverviewItems(context)),
+          ),
         ),
       ),
     );
@@ -42,7 +55,12 @@ class ProjectsOverviewTable extends StatelessWidget {
           )),
       DataColumn(
           label: Text(
-        "ID",
+        "Schaltermaterial",
+        style: textStyle,
+      )),
+      DataColumn(
+          label: Text(
+        "",
         style: textStyle,
       )),
       DataColumn(label: Text("")),
@@ -74,22 +92,65 @@ class ProjectsOverviewTable extends StatelessWidget {
       DataCell(Text(
         DateFormat.yMMMd().format(projectBasicData.latestModificationDate),
       )),
-      DataCell(Text(projectBasicData.projectID)),
-      DataCell(
-          Container(
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 24),
-            decoration: BoxDecoration(
-                color: Theme.of(ctx).primaryColor,
-                borderRadius: BorderRadius.all(Radius.circular(12))),
-            child: Text(
-              "öffnen",
-              style: TextStyle(color: Colors.white),
-            ),
-          ), onTap: () {
-        openProject(ctx, projectBasicData.projectID);
-      }),
+      DataCell(Text(projectBasicData.projectSwitchBrand)),
+      DataCell(Text("")),
+      _buildOpenButtonCell(projectBasicData, ctx),
       DataCell(Text("")),
       DataCell(Text("")),
     ];
   }
+
+  DataCell _buildOpenButtonCell(
+      ProjectBasicData projectBasicData, BuildContext ctx) {
+    return DataCell(
+        Row(
+          children: [
+            Container(
+              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 24),
+              decoration: BoxDecoration(
+                  color: Theme.of(ctx).primaryColor,
+                  borderRadius: BorderRadius.all(Radius.circular(12))),
+              child: Text(
+                "öffnen",
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+            PopupMenuButton(
+              itemBuilder: (ctx) {
+                return _popUpItems;
+              },
+              onSelected: (value) {
+                if (value == "delete") {
+                  widget.deleteProject(ctx, projectBasicData.projectID);
+                }
+              },
+            ),
+
+            // IconButton(onPressed: () {}, icon: Icon(Icons.menu)),
+          ],
+        ), onTap: () {
+      widget.openProject(ctx, projectBasicData.projectID);
+    });
+  }
+
+  final List<PopupMenuItem<String>> _popUpItems = [
+    PopupMenuItem<String>(
+      child: Row(
+        children: [
+          Icon(Icons.edit),
+          Text("  Projekt bearbeiten"),
+        ],
+      ),
+      value: "edit",
+    ),
+    PopupMenuItem<String>(
+      child: Row(
+        children: [
+          Icon(Icons.delete),
+          Text(" Projekt löschen"),
+        ],
+      ),
+      value: "delete",
+    ),
+  ];
 }

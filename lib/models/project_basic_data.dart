@@ -1,5 +1,5 @@
 class ProjectBasicData {
-  final String projectID;
+  String projectID;
   final String projectTitle;
   final String projectSwitchBrand;
   final DateTime latestModificationDate;

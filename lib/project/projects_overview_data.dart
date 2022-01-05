@@ -21,15 +21,30 @@ class ProjectsOverviewData extends ChangeNotifier {
         projectTitle: loadedData["projectTitle"],
         latestModificationDate:
             DateTime.parse(loadedData["latestModificationDate"]),
+        projectSwitchBrand: loadedData["projectSwitchBrand"],
       );
       projects.add(newProjectBasicData);
     });
   }
 
   Future<void> addNewProject(MainAreaData newProject) async {
-    await newProject.storeProjectData();
-    final newProjectsBasicData = ProjectBasicData(
-        projectID: newProject.projectID, projectTitle: newProject.projectName);
+    var newProjectsBasicData = ProjectBasicData(
+      projectID: newProject.projectID,
+      projectTitle: newProject.projectName,
+      projectSwitchBrand: newProject.currentSwitchBrand,
+      latestModificationDate: DateTime.now(),
+    );
     projects.add(newProjectsBasicData);
+    await newProject
+        .storeProjectData()
+        .then((projectID) => newProjectsBasicData.projectID = projectID);
+  }
+
+  Future<void> deleteProject(String projectID) async {
+    projects.removeWhere(
+        (projectBasicData) => projectBasicData.projectID == projectID);
+    final url = Uri.parse(
+        "https://knx-switchplanningtool-default-rtdb.europe-west1.firebasedatabase.app/$projectID.json");
+    await http.delete(url);
   }
 }
