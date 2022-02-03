@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:knx_keybinding_tool/models/project_basic_data.dart';
-import 'package:knx_keybinding_tool/project/projects_overview_data.dart';
+import '../models/project_basic_data.dart';
+import '../project/projects_overview_data.dart';
 import 'package:provider/provider.dart';
 
 class ProjectsOverviewTable extends StatefulWidget {

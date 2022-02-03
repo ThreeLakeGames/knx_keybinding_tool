@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:knx_keybinding_tool/provider/main_area_data.dart';
 import 'package:provider/provider.dart';
+
+import '../provider/main_area_data.dart';
 
 class ProjectSettingsScreen extends StatefulWidget {
   static const String routeName = "/project-settings-screen";

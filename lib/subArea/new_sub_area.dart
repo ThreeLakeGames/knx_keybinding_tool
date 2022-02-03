@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:knx_keybinding_tool/provider/main_area_data.dart';
-import 'package:knx_keybinding_tool/subArea/sub_area_data.dart';
 import 'package:provider/provider.dart';
+
+import '../provider/main_area_data.dart';
+import './sub_area_data.dart';
 
 class NewSubArea extends StatefulWidget {
   @override

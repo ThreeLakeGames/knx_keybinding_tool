@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:knx_keybinding_tool/project/projects_overview_table.dart';
-import 'package:knx_keybinding_tool/provider/main_area_data.dart';
-import 'package:knx_keybinding_tool/project/projects_overview_data.dart';
-import 'package:knx_keybinding_tool/screens/main_overview_screen.dart';
-import 'package:knx_keybinding_tool/project/new_project.dart';
+import '../project/projects_overview_table.dart';
+import '../provider/main_area_data.dart';
+import '../project/projects_overview_data.dart';
+import '../screens/main_overview_screen.dart';
+import '../project/new_project.dart';
 import 'package:provider/provider.dart';
 
 class ProjectsOverviewScreen extends StatefulWidget {

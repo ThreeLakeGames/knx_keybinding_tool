@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:knx_keybinding_tool/provider/switch_item_data.dart';
 import 'package:provider/provider.dart';
+
+import '/provider/switch_item_data.dart';
 
 class RockerTile extends StatefulWidget {
   final bool shouldRenderImage;

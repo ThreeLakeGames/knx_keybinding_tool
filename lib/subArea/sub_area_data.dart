@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:knx_keybinding_tool/provider/switch_item_data.dart';
 import 'package:vector_math/vector_math.dart';
 
+import '../provider/switch_item_data.dart';
 import '../provider/switch_combination_item_data.dart';
 
 class SubAreaData with ChangeNotifier {

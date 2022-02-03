@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:knx_keybinding_tool/project/projects_overview_data.dart';
-import 'package:knx_keybinding_tool/screens/project_settings_screen.dart';
-import 'package:knx_keybinding_tool/widgets/main_drawer.dart';
 import 'package:provider/provider.dart';
+
+import '../project/projects_overview_data.dart';
+import './project_settings_screen.dart';
+import '../widgets/main_drawer.dart';
 
 class DefaultProjectScreen extends StatelessWidget {
   final Function addNewArea;

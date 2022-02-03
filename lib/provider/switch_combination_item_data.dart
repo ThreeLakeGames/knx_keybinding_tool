@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:knx_keybinding_tool/provider/switch_item_data.dart';
+import './switch_item_data.dart';
 
 class SwitchCombinationItemData with ChangeNotifier {
   String id;

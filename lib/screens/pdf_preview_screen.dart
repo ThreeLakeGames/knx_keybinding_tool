@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:knx_keybinding_tool/pdf_widgets/pdf_sub_area.dart';
-import 'package:knx_keybinding_tool/provider/main_area_data.dart';
 import 'package:pdf/pdf.dart';
 import 'package:provider/provider.dart';
 import 'package:printing/printing.dart';
 import 'package:pdf/widgets.dart' as pw;
+
+import '/pdf_widgets/pdf_sub_area.dart';
+import '/provider/main_area_data.dart';
 
 class PdfPreviewScreen extends StatefulWidget {
   static const routeName = "/pdf-preview-screen";
